@@ -41,9 +41,8 @@ void printUsage() {
 		"\a-t|\ax  \ay/boxr Chase\ax - Sets navivation to chase assisted character, and stop camping\n"
 		"\a-t|\ax  \ay/boxr Camp\ax - Sets navigation to camp at current position, and return to camp after combat\n"
 		"\a-t|\ax  \ay/boxr Manual\ax - Sets manual navigation (don't chase, no camp)\n"
-		"\a-t|\ax  \ay/boxr CampRadius <integer>\ax - Sets campradius\n"
 		"\a-t|\ax  \ay/boxr RaidAssistNum <1, 2, 3>\ax - Toggles which Raid MA to assist\n"
-		"\a-t|\ax  \ay/boxr Debug \a-y[on|off]\ax\ax - Toggles debug logging\n"
+		"\a-t|\ax  \ay/boxr Debug \a-y[on|off]\ax\ax - Toggles MQ2Boxr debug logging\n"
 		"\a-t|\ax  \ay/boxr Help\ax - Prints this help\n"
 	);
 }
@@ -68,17 +67,6 @@ void BoxrCommand(SPAWNINFO* pChar, char* szLine) {
 		MasterBoxControl::getInstance().Camp();
 	} else if (iStrEquals("manual", argVector.front())) {
 		MasterBoxControl::getInstance().Manual();
-	} else if (iStrEquals("campradius", argVector.front())) {
-		if (argVector.size() != 2) {
-			LOG_ERROR("/boxr campradius: expected exactly one argument, but got %d", argVector.size() - 1);
-			return;
-		}
-		try {
-			int newCampRadius = std::stoi(argVector.at(1));
-			MasterBoxControl::getInstance().CampRadius(newCampRadius);
-		} catch (std::invalid_argument& e) {
-			LOG_ERROR("/boxr campradius: invalid argument - expected positive integer, but got: %s", argVector.at(1).c_str());
-		}
 	} else if (iStrEquals("raidassistnum", argVector.front())) {
 		if (argVector.size() != 2) {
 			LOG_ERROR("/boxr RaidAssistNum: expected exactly one argument, but got %d", argVector.size() - 1);

@@ -1,7 +1,9 @@
 #include "boxr.h"
 #include <string>
 
-#define SQUELCH(CMD, ...) DoCommandf("/squelch " CMD, __VA_ARGS__)
+#define SQUELCH(CMD, ...) DoCommandf("/squelch " CMD, __VA_ARGS__);
+#define DEBUG_LOG_AND_RUN(CMD, ...) LOG_DEBUG("Running command: " CMD, __VA_ARGS__); DoCommandf(CMD, __VA_ARGS__);
+#define BOXR_RUN_COMMANDF(...) if (debugEnabled) { DEBUG_LOG_AND_RUN(__VA_ARGS__) } else  { SQUELCH(__VA_ARGS__) }
 
 bool debugEnabled = false;
 
@@ -32,11 +34,6 @@ void MasterBoxControl::Manual() {
 	getBox()->Manual();
 }
 
-void MasterBoxControl::CampRadius(int campRadius) {
-	LOG("Setting \a-tcamp radius\ax to \at%d\ax", campRadius);
-	getBox()->SetCampRadius(campRadius);
-}
-
 void MasterBoxControl::RaidAssistNum(int raidAssistNum) {
 	LOG("Setting \a-tRaidAssistNum\ax to \at%d\ax (\at%s\ax)", raidAssistNum,
 		GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
@@ -46,127 +43,137 @@ void MasterBoxControl::RaidAssistNum(int raidAssistNum) {
 	getBox()->SetRaidAssistNum(raidAssistNum);
 }
 
-bool stringStartsWith(const char* pre, const char* str) {
-	return strncmp(pre, str, strlen(pre)) == 0;
-}
-
-BoxControl* MasterBoxControl::getBox() {
+MasterBoxControl::MasterBoxControl() {
 	// Assume that if a macro is running, it is controlling the character, even if
 	// a the class's CWTN plugin is loaded (since otherwise, why start the macro?)
-	if (gMacroStack && strlen(gszMacroName) && stringStartsWith("kiss", gszMacroName)) {
-		return &kissAssistControl;
+	boxes.push_back(std::make_shared<RGMercsControl>());
+	boxes.push_back(std::make_shared<KissAssistControl>());
+	boxes.push_back(std::make_shared<MuleAssistControl>());
+	boxes.push_back(std::make_shared<CwtnControl>());
+}
+
+bool stringStartsWith(const char* pre, const char* str) {
+	return _strnicmp(pre, str, strlen(pre)) == 0;
+}
+
+std::shared_ptr<BoxControl> MasterBoxControl::getBox() {
+	for (std::shared_ptr<BoxControl> box : boxes) {
+		if (box->isRunning()) {
+			LOG_DEBUG("Detected running: %s", box->GetName());
+			return box;
+		}
 	}
-	else if (gMacroStack && strlen(gszMacroName) && stringStartsWith("rgmercs", gszMacroName)) {
-		return &rgmercsControl;
-	}
-	else if (isClassPluginLoaded()) {
-		return &cwtnControl;
-	}
-	else {
-		return &noopControl;
-	}
+	return this->noopControl;
 }
 
 void pauseTwist() {
 	if (GetCharInfo2()->Class == Bard) {
-		SQUELCH("/twist off");
+		BOXR_RUN_COMMANDF("/twist off");
 	}
 }
 
+bool RGMercsControl::isRunning() {
+	return stringStartsWith("rgmercs", gszMacroName);
+}
+
 void RGMercsControl::Pause() {
-	SQUELCH("/mqp on");
+	BOXR_RUN_COMMANDF("/mqp on");
 	pauseTwist();
 }
 
 void RGMercsControl::Unpause() {
-	SQUELCH("/mqp off");
+	BOXR_RUN_COMMANDF("/mqp off");
 }
 
 void RGMercsControl::Chase() {
-	SQUELCH("/rg chaseon");
+	BOXR_RUN_COMMANDF("/rg chaseon");
 }
 
 void RGMercsControl::Camp() {
-	SQUELCH("/rg camphard");
+	BOXR_RUN_COMMANDF("/rg camphard");
 }
 
 void RGMercsControl::Manual() {
-	SQUELCH("/rg chaseoff");
-	SQUELCH("/timed 1 /rg campoff");
-}
-
-void RGMercsControl::SetCampRadius(int campRadius) {
-	SQUELCH("/rg autocampradius %d", campRadius);
+	BOXR_RUN_COMMANDF("/rg chaseoff");
+	BOXR_RUN_COMMANDF("/timed 1 /rg campoff");
 }
 
 void RGMercsControl::SetRaidAssistNum(int raidAssistNum) {
-	SQUELCH("/rg AssistOutside 1");
-	SQUELCH("/timed 1 /rg OutsideAssistList %s", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
+	BOXR_RUN_COMMANDF("/rg AssistOutside 1");
+	BOXR_RUN_COMMANDF("/timed 1 /rg OutsideAssistList %s", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
+}
+
+bool KissAssistControl::isRunning() {
+	return stringStartsWith("kiss", gszMacroName);
 }
 
 void KissAssistControl::Pause() {
-	SQUELCH("/mqp on");
+	BOXR_RUN_COMMANDF("/mqp on");
 	pauseTwist();
 }
 
 void KissAssistControl::Unpause() {
-	SQUELCH("/mqp off");
+	BOXR_RUN_COMMANDF("/mqp off");
 }
 
 void KissAssistControl::Chase() {
-	SQUELCH("/chaseon");
+	BOXR_RUN_COMMANDF("/chaseon");
 }
 
 void KissAssistControl::Camp() {
-	SQUELCH("/camphere on");
+	BOXR_RUN_COMMANDF("/camphere on");
 }
 
 void KissAssistControl::Manual() {
-	SQUELCH("/chaseoff");
+	BOXR_RUN_COMMANDF("/chaseoff");
 	// Macros seem to sometimes miss the second command if they are run
 	// in too quick succession on slower systems, thus the /timed here
-	SQUELCH("/timed 1 /camphere off ");
-}
-
-void KissAssistControl::SetCampRadius(int campRadius) {
-	SQUELCH("/campradius %d", campRadius);
+	BOXR_RUN_COMMANDF("/timed 1 /camphere off ");
 }
 
 void KissAssistControl::SetRaidAssistNum(int raidAssistNum) {
-	SQUELCH("/switchma %s tank 1", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
+	BOXR_RUN_COMMANDF("/switchma %s tank 1", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
+}
+
+bool MuleAssistControl::isRunning() {
+	return stringStartsWith("muleassist", gszMacroName);
+}
+
+void MuleAssistControl::SetRaidAssistNum(int raidAssistNum) {
+	BOXR_RUN_COMMANDF("/changema %s", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
 }
 
 const char* getPlayerClassAbbr() {
 	return ClassInfo[GetCharInfo2()->Class].ShortName;
 }
 
+bool CwtnControl::isRunning() {
+	return isClassPluginLoaded();
+}
+
 void CwtnControl::Pause() {
-	SQUELCH("/%s pause on", getPlayerClassAbbr());
+	BOXR_RUN_COMMANDF("/%s pause on", getPlayerClassAbbr());
 }
 
 void CwtnControl::Unpause() {
-	SQUELCH("/%s pause off", getPlayerClassAbbr());
+	BOXR_RUN_COMMANDF("/%s pause off", getPlayerClassAbbr());
 }
 
 void CwtnControl::Chase() {
-	SQUELCH("/%s mode chase", getPlayerClassAbbr());
+	BOXR_RUN_COMMANDF("/%s mode chase", getPlayerClassAbbr());
 }
 
 void CwtnControl::Camp() {
-	SQUELCH("/%s mode assist", getPlayerClassAbbr());
-	SQUELCH("/%s resetcamp", getPlayerClassAbbr());
+	BOXR_RUN_COMMANDF("/%s mode assist", getPlayerClassAbbr());
+	BOXR_RUN_COMMANDF("/%s resetcamp", getPlayerClassAbbr());
 }
 
 void CwtnControl::Manual() {
-	SQUELCH("/%s mode manual", getPlayerClassAbbr());
-}
-
-void CwtnControl::SetCampRadius(int campRadius) {
-	SQUELCH("/%s campradius %d", getPlayerClassAbbr(), campRadius);
+	BOXR_RUN_COMMANDF("/%s mode manual", getPlayerClassAbbr());
 }
 
 void CwtnControl::SetRaidAssistNum(int raidAssistNum) {
-	SQUELCH("/%s raidassistnum %d", getPlayerClassAbbr(), raidAssistNum);
+	BOXR_RUN_COMMANDF("/%s raidassistnum %d", getPlayerClassAbbr(), raidAssistNum);
 }
 
 bool isPluginLoaded(const char* pluginName) {
