@@ -78,10 +78,15 @@ void BoxrCommand(SPAWNINFO* pChar, char* szLine) {
 				LOG_ERROR("/boxr RaidAssistNum: RaidAssistNum must be either 1, 2, or 3.");
 				return;
 			}
+#if defined(ROF2EMU) || defined(UFEMU)
+			LOG_ERROR("/boxr RaidAssistNum: There is no main assist %d on EMU", raidAssistNum);
+			return;
+#else
 			if (!GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]) {
 				LOG_ERROR("/boxr RaidAssistNum: There is no main assist %d", raidAssistNum);
 				return;
 			}
+#endif
 			MasterBoxControl::getInstance().RaidAssistNum(raidAssistNum);
 		} catch (std::invalid_argument& e) {
 			LOG_ERROR("/boxr raidassistnum: invalid argument - expected 1, 2, or 3, but got: %s", argVector.at(1).c_str());
