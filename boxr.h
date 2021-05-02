@@ -1,5 +1,5 @@
 #pragma once
-#include "../MQ2Plugin.h"
+#include <mq/Plugin.h>
 
 #define LOG_HEADER "\a-t[\atMQ2Boxr\ax] "
 #define LOG(MSG, ...) WriteChatf(LOG_HEADER MSG, __VA_ARGS__)

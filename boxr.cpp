@@ -1,5 +1,4 @@
 #include "boxr.h"
-#include <string>
 
 #define SQUELCH(CMD, ...) DoCommandf("/squelch " CMD, __VA_ARGS__);
 #define DEBUG_LOG_AND_RUN(CMD, ...) LOG_DEBUG("Running command: " CMD, __VA_ARGS__); DoCommandf(CMD, __VA_ARGS__);
@@ -67,7 +66,7 @@ std::shared_ptr<BoxControl> MasterBoxControl::getBox() {
 }
 
 void pauseTwist() {
-	if (GetCharInfo2()->Class == Bard) {
+	if (GetPcProfile()->Class == Bard) {
 		BOXR_RUN_COMMANDF("/twist off");
 	}
 }
@@ -144,7 +143,7 @@ void MuleAssistControl::SetRaidAssistNum(int raidAssistNum) {
 }
 
 const char* getPlayerClassAbbr() {
-	return ClassInfo[GetCharInfo2()->Class].ShortName;
+	return ClassInfo[GetPcProfile()->Class].ShortName;
 }
 
 bool CwtnControl::isRunning() {
@@ -176,27 +175,16 @@ void CwtnControl::SetRaidAssistNum(int raidAssistNum) {
 	BOXR_RUN_COMMANDF("/%s raidassistnum %d", getPlayerClassAbbr(), raidAssistNum);
 }
 
-bool isPluginLoaded(const char* pluginName) {
-	PMQPLUGIN pPlugin = pPlugins;
-	while (pPlugin) {
-		if (!_stricmp(pluginName, pPlugin->szFilename)) {
-			return true;
-		}
-		pPlugin = pPlugin->pNext;
-	}
-	return false;
-}
-
 bool isClassPluginLoaded() {
-	auto classPluginName = getClassPlugin();
+	const char* classPluginName = getClassPlugin();
 	if (classPluginName == nullptr) {
 		return false;
 	}
-	return isPluginLoaded(classPluginName);
+	return IsPluginLoaded(classPluginName);
 }
 
 const char* getClassPlugin() {
-	switch (GetCharInfo2()->Class) {
+	switch (GetPcProfile()->Class) {
 	case Beastlord:
 		return "MQ2Bst";
 	case Berserker:

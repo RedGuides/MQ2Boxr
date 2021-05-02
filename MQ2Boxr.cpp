@@ -1,9 +1,7 @@
-#include "../MQ2Plugin.h"
+#include "boxr.h"
 
 PLUGIN_VERSION(0.1);
 PreSetup("MQ2Boxr");
-
-#include "boxr.h"
 
 std::vector<std::string> getArgVector(const std::string& argsString, const std::string& delimiter = " ") {
 	auto args = std::vector<std::string>();
@@ -89,6 +87,7 @@ void BoxrCommand(SPAWNINFO* pChar, char* szLine) {
 #endif
 			MasterBoxControl::getInstance().RaidAssistNum(raidAssistNum);
 		} catch (std::invalid_argument& e) {
+			UNREFERENCED_PARAMETER(e);
 			LOG_ERROR("/boxr raidassistnum: invalid argument - expected 1, 2, or 3, but got: %s", argVector.at(1).c_str());
 		}
 	} else if (iStrEquals("debug", argVector.front())) {
