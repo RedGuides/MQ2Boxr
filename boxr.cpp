@@ -197,16 +197,28 @@ bool isClassPluginLoaded() {
 
 const char* getClassPlugin() {
 	switch (GetCharInfo2()->Class) {
+	case Bard:
+		return "MQ2Bard";
 	case Beastlord:
 		return "MQ2Bst";
 	case Berserker:
 		return "MQ2BerZerker";
 	case Cleric:
 		return "MQ2Cleric";
+	case Druid:
+		return "MQ2Druid";
 	case Enchanter:
 		return "MQ2Enchanter";
+	case Mage:
+		return "MQ2Mage";
 	case Monk:
 		return "MQ2Monk";
+	case Necromancer:
+		return "MQ2Necro";
+	case Paladin:
+		return "MQ2Paladin";
+	case Ranger:
+		return "MQ2Ranger";
 	case Rogue:
 		return "MQ2Rogue";
 	case Shadowknight:
@@ -215,6 +227,8 @@ const char* getClassPlugin() {
 		return "MQ2Shaman";
 	case Warrior:
 		return "MQ2War";
+	case Wizard:
+		return "MQ2Wizard";
 	default:
 		return nullptr;
 	}
