@@ -14,7 +14,8 @@ running.
 | `/boxr Camp`                    | Camp in one spot, assist the MA within camp radius, and return to camp after battle
 | `/boxr Chase`                   | Chase the MA, and assist in battle
 | `/boxr Manual`                  | Do not chase, do not return to camp. This state behaves a little bit different between different boxes, see [specifics](#specifics) below
-| `/boxr RaidAssistNum <1\|2\|3>` | Toggles which Raid MA the character will assist
+| `/boxr BurnNow`                 | Burn current target
+| `/boxr RaidAssistNum <1\|2\|3>` | Toggles which Raid MA the character will assist. This command is not supported on the Emulator build
 | `/boxr Debug <on\|off>`         | Turn on/off MQ2Boxr debug logging
 | `/boxr Help`                    | Print help text
 
@@ -32,6 +33,7 @@ The mapping to CWTN commands is very straight-forward
 | `Camp`               | `/war mode assist`
 | `Chase`              | `/war mode chase`
 | `Manual`             | `/war mode manual`
+| `BurnNow`            | `/war BurnNow`
 | `RaidAssistNum <N>`  | `/war RaidAssistNum`
 
 #### KissAssist
@@ -41,6 +43,7 @@ The mapping to CWTN commands is very straight-forward
 | `Camp`               | `/camphere on`
 | `Chase`              | `/chaseon`
 | `Manual`             | `/chaseoff` <br/> `/camphere off`
+| `BurnNow`            | `/burn`
 | `RaidAssistNum <N>`  | `/switchma <Name of Raid MA #N> tank 1`
 
 #### MuleAssist
@@ -49,6 +52,7 @@ The mapping to CWTN commands is very straight-forward
 |----------------------|-------------
 | `Camp`               | `/camphere on`
 | `Chase`              | `/chaseon`
+| `BurnNow`            | `/burn`
 | `RaidAssistNum <N>`  | `/changema <Name of Raid MA #N>`
 
 #### rgmercs
@@ -58,4 +62,5 @@ The mapping to CWTN commands is very straight-forward
 | `Camp`               | `/rg camphard`
 | `Chase`              | `/rg chaseon`
 | `Manual`             | `/rg chaseoff`<br/>`/rg campoff`
+| `BurnNow`            | *Not supported*
 | `RaidAssistNum <N>`  | `/rg AssistOutside 1`<br />`/rg OutsideAssistList <Name of Raid MA #N>`
