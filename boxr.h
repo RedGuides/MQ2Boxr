@@ -21,6 +21,7 @@ public:
 	virtual void Chase() = 0;
 	virtual void Camp() = 0;
 	virtual void Manual() = 0;
+	virtual void BurnNow() = 0;
 	virtual void SetRaidAssistNum(int raidAssistNum) = 0;
 
 	virtual ~BoxControl() = default;
@@ -35,6 +36,7 @@ public:
 	void Chase() override;
 	void Camp() override;
 	void Manual() override;
+	void BurnNow() override;
 	void SetRaidAssistNum(int raidAssistNum) override;
 };
 
@@ -47,6 +49,7 @@ public:
 	void Chase() override;
 	void Camp() override;
 	void Manual() override;
+	void BurnNow() override;
 	void SetRaidAssistNum(int raidAssistNum) override;
 };
 
@@ -66,6 +69,7 @@ public:
 	void Chase() override;
 	void Camp() override;
 	void Manual() override;
+	void BurnNow() override;
 	void SetRaidAssistNum(int raidAssistNum) override;
 };
 
@@ -79,6 +83,7 @@ public:
 	void Chase() override { LOG_NOOP_WARNING; }
 	void Camp() override { LOG_NOOP_WARNING; }
 	void Manual() override { LOG_NOOP_WARNING; }
+	void BurnNow() override { LOG_NOOP_WARNING; }
 	void SetRaidAssistNum(int raidAssistNum) override { LOG_NOOP_WARNING; }
 };
 
@@ -99,6 +104,7 @@ public:
 	void Chase();
 	void Camp();
 	void Manual();
+	void BurnNow();
 	void RaidAssistNum(int raidAssistNum);
 
 private:

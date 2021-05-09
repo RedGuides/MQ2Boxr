@@ -33,6 +33,11 @@ void MasterBoxControl::Manual() {
 	getBox()->Manual();
 }
 
+void MasterBoxControl::BurnNow() {
+	LOG("Burn phase NOW!");
+	getBox()->BurnNow();
+}
+
 void MasterBoxControl::RaidAssistNum(int raidAssistNum) {
 	LOG("Setting \a-tRaidAssistNum\ax to \at%d\ax (\at%s\ax)", raidAssistNum,
 		GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
@@ -97,6 +102,10 @@ void RGMercsControl::Manual() {
 	BOXR_RUN_COMMANDF("/timed 1 /rg campoff");
 }
 
+void RGMercsControl::BurnNow() {
+	LOG("BurnNow is not supported for rgmercs");
+}
+
 void RGMercsControl::SetRaidAssistNum(int raidAssistNum) {
 	BOXR_RUN_COMMANDF("/rg AssistOutside 1");
 	BOXR_RUN_COMMANDF("/timed 1 /rg OutsideAssistList %s", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
@@ -128,6 +137,10 @@ void KissAssistControl::Manual() {
 	// Macros seem to sometimes miss the second command if they are run
 	// in too quick succession on slower systems, thus the /timed here
 	BOXR_RUN_COMMANDF("/timed 1 /camphere off ");
+}
+
+void KissAssistControl::BurnNow() {
+	BOXR_RUN_COMMANDF("/burn");
 }
 
 void KissAssistControl::SetRaidAssistNum(int raidAssistNum) {
@@ -169,6 +182,10 @@ void CwtnControl::Camp() {
 
 void CwtnControl::Manual() {
 	BOXR_RUN_COMMANDF("/%s mode manual", getPlayerClassAbbr());
+}
+
+void CwtnControl::BurnNow() {
+	BOXR_RUN_COMMANDF("/%s BurnNow", getPlayerClassAbbr());
 }
 
 void CwtnControl::SetRaidAssistNum(int raidAssistNum) {
