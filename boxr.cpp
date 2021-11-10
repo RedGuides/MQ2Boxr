@@ -220,7 +220,8 @@ void EntropyControl::Manual() {
 }
 
 void EntropyControl::BurnNow() {
-	LOG("BurnNow is not supported for Entropy");
+	BOXR_RUN_COMMANDF("/burn force on");
+	LOG("Will burn all the time. Use \ay/burn force off\ax to stop burning.");
 }
 
 void EntropyControl::SetRaidAssistNum(int raidAssistNum) {

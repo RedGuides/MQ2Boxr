@@ -72,5 +72,5 @@ The mapping to CWTN commands is very straight-forward
 | `Camp`               | `/tie off` <br/>`/home set on`
 | `Chase`              | `/tie on`
 | `Manual`             | `/tie off`<br/>`/home clear`
-| `BurnNow`            | *Not supported*
+| `BurnNow`            | `/burn force on`<br/>Will burn until force burn is toggled off again.
 | `RaidAssistNum <N>`  | `/cc ass smart <N>`
