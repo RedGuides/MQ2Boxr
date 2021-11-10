@@ -215,8 +215,7 @@ void EntropyControl::Camp() {
 }
 
 void EntropyControl::Manual() {
-	BOXR_RUN_COMMANDF("/tie off");
-	BOXR_RUN_COMMANDF("/timed 1 /home clear");
+	BOXR_RUN_COMMANDF("/env auto off");
 }
 
 void EntropyControl::BurnNow() {
