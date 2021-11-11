@@ -53,6 +53,7 @@ MasterBoxControl::MasterBoxControl() {
 	boxes.push_back(std::make_shared<RGMercsControl>());
 	boxes.push_back(std::make_shared<KissAssistControl>());
 	boxes.push_back(std::make_shared<MuleAssistControl>());
+	boxes.push_back(std::make_shared<EntropyControl>());
 	boxes.push_back(std::make_shared<CwtnControl>());
 }
 
@@ -190,6 +191,40 @@ void CwtnControl::BurnNow() {
 
 void CwtnControl::SetRaidAssistNum(int raidAssistNum) {
 	BOXR_RUN_COMMANDF("/%s raidassistnum %d", getPlayerClassAbbr(), raidAssistNum);
+}
+
+bool EntropyControl::isRunning() {
+	return stringStartsWith("entropy", gszMacroName);
+}
+
+void EntropyControl::Pause() {
+	BOXR_RUN_COMMANDF("/mqp on");
+}
+
+void EntropyControl::Unpause() {
+	BOXR_RUN_COMMANDF("/mqp off");
+}
+
+void EntropyControl::Chase() {
+	BOXR_RUN_COMMANDF("/tie on");
+}
+
+void EntropyControl::Camp() {
+	BOXR_RUN_COMMANDF("/tie off");
+	BOXR_RUN_COMMANDF("/timed 1 /home set on");
+}
+
+void EntropyControl::Manual() {
+	BOXR_RUN_COMMANDF("/env auto off");
+}
+
+void EntropyControl::BurnNow() {
+	BOXR_RUN_COMMANDF("/burn force on");
+	LOG("Will burn all the time. Use \ay/burn force off\ax to stop burning.");
+}
+
+void EntropyControl::SetRaidAssistNum(int raidAssistNum) {
+	BOXR_RUN_COMMANDF("/cc ass smart %d", raidAssistNum);
 }
 
 bool isClassPluginLoaded() {

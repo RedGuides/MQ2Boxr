@@ -73,6 +73,19 @@ public:
 	void SetRaidAssistNum(int raidAssistNum) override;
 };
 
+class EntropyControl : public BoxControl {
+public:
+	const char* GetName() override { return "Entropy"; }
+	bool isRunning() override;
+	void Pause() override;
+	void Unpause() override;
+	void Chase() override;
+	void Camp() override;
+	void Manual() override;
+	void BurnNow() override;
+	void SetRaidAssistNum(int raidAssistNum) override;
+};
+
 #define LOG_NOOP_WARNING LOG("MQ2Boxr does not have support for whatever is running this toon, sorry.")
 class NoopControl : public BoxControl {
 public:
