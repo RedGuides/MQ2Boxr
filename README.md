@@ -1,7 +1,7 @@
 ## MQ2Boxr
 
 This plugin provides a command to control boxes running CWTN plugins,
-KissAssist, MuleAssist, and rgmercs. The idea is to have one common command, 
+KissAssist, MuleAssist, rgmercs, and Entropy. The idea is to have one common command, 
 which can be broadcast to all boxed characters, regardless of what they are 
 running.
 
@@ -34,7 +34,7 @@ The mapping to CWTN commands is very straight-forward
 | `Chase`              | `/war mode chase`
 | `Manual`             | `/war mode manual`
 | `BurnNow`            | `/war BurnNow`
-| `RaidAssistNum <N>`  | `/war RaidAssistNum`
+| `RaidAssistNum <N>`  | `/war RaidAssistNum <N>`
 
 #### KissAssist
 
@@ -64,3 +64,13 @@ The mapping to CWTN commands is very straight-forward
 | `Manual`             | `/rg chaseoff`<br/>`/rg campoff`
 | `BurnNow`            | *Not supported*
 | `RaidAssistNum <N>`  | `/rg AssistOutside 1`<br />`/rg OutsideAssistList <Name of Raid MA #N>`
+
+#### Entropy
+
+| Boxr command         | Action
+|----------------------|-------------
+| `Camp`               | `/tie off` <br/>`/home set on`
+| `Chase`              | `/tie on`
+| `Manual`             | `/env auto off`
+| `BurnNow`            | `/burn force on`<br/>Will burn until force burn is toggled off again.
+| `RaidAssistNum <N>`  | `/cc ass smart <N>`
