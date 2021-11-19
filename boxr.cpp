@@ -20,35 +20,35 @@ void boxrRunCommandf(std::string_view format, Args&&... args) {
 }
 
 void MasterBoxControl::Pause() {
-	auto box = getBox();
+	auto box = GetBox();
 	LOGGER.info("Pausing {}", box->GetName());
 	box->Pause();
 }
 
 void MasterBoxControl::Unpause() {
-	auto box = getBox();
+	auto box = GetBox();
 	LOGGER.info("Unpausing {}", box->GetName());
 	box->Unpause();
 }
 
 void MasterBoxControl::Chase() {
 	LOGGER.info("Setting \ayCHASE\ax mode");
-	getBox()->Chase();
+	GetBox()->Chase();
 }
 
 void MasterBoxControl::Camp() {
 	LOGGER.info("Setting \ayCAMP\ax mode");
-	getBox()->Camp();
+	GetBox()->Camp();
 }
 
 void MasterBoxControl::Manual() {
 	LOGGER.info("Setting \ayMANUAL\ax mode");
-	getBox()->Manual();
+	GetBox()->Manual();
 }
 
 void MasterBoxControl::BurnNow() {
 	LOGGER.info("Burn phase NOW!");
-	getBox()->BurnNow();
+	GetBox()->BurnNow();
 }
 
 void MasterBoxControl::RaidAssistNum(int raidAssistNum) {
@@ -57,7 +57,7 @@ void MasterBoxControl::RaidAssistNum(int raidAssistNum) {
 	LOGGER.debug("RaidAssist 1: {}", GetCharInfo()->raidData.MainAssistNames[0]);
 	LOGGER.debug("RaidAssist 2: {}", GetCharInfo()->raidData.MainAssistNames[1]);
 	LOGGER.debug("RaidAssist 3: {}", GetCharInfo()->raidData.MainAssistNames[2]);
-	getBox()->SetRaidAssistNum(raidAssistNum);
+	GetBox()->SetRaidAssistNum(raidAssistNum);
 }
 
 MasterBoxControl::MasterBoxControl() {
@@ -72,13 +72,13 @@ MasterBoxControl::MasterBoxControl() {
 	boxes.push_back(std::make_shared<CwtnControl>());
 }
 
-bool stringStartsWith(const char* pre, const char* str) {
+bool StringStartsWith(const char* pre, const char* str) {
 	return _strnicmp(pre, str, strlen(pre)) == 0;
 }
 
-std::shared_ptr<BoxControl> MasterBoxControl::getBox() {
+std::shared_ptr<BoxControl> MasterBoxControl::GetBox() {
 	for (std::shared_ptr<BoxControl> box : boxes) {
-		if (box->isRunning()) {
+		if (box->IsRunning()) {
 			LOGGER.debug("Detected running: {}", box->GetName());
 			return box;
 		}
@@ -86,19 +86,19 @@ std::shared_ptr<BoxControl> MasterBoxControl::getBox() {
 	return this->noopControl;
 }
 
-void pauseTwist() {
+void PauseTwist() {
 	if (GetPcProfile()->Class == Bard) {
 		boxrRunCommandf("/twist off");
 	}
 }
 
-bool RGMercsControl::isRunning() {
-	return stringStartsWith("rgmercs", gszMacroName);
+bool RGMercsControl::IsRunning() {
+	return StringStartsWith("rgmercs", gszMacroName);
 }
 
 void RGMercsControl::Pause() {
 	boxrRunCommandf("/mqp on");
-	pauseTwist();
+	PauseTwist();
 }
 
 void RGMercsControl::Unpause() {
@@ -127,13 +127,13 @@ void RGMercsControl::SetRaidAssistNum(int raidAssistNum) {
 	boxrRunCommandf(MACRO_COMMAND_DELAY "/rg OutsideAssistList {}", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
 }
 
-bool KissAssistControl::isRunning() {
-	return stringStartsWith("kiss", gszMacroName);
+bool KissAssistControl::IsRunning() {
+	return StringStartsWith("kiss", gszMacroName);
 }
 
 void KissAssistControl::Pause() {
 	boxrRunCommandf("/mqp on");
-	pauseTwist();
+	PauseTwist();
 }
 
 void KissAssistControl::Unpause() {
@@ -161,8 +161,8 @@ void KissAssistControl::SetRaidAssistNum(int raidAssistNum) {
 	boxrRunCommandf("/switchma {} tank 1", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
 }
 
-bool MuleAssistControl::isRunning() {
-	return stringStartsWith("muleassist", gszMacroName);
+bool MuleAssistControl::IsRunning() {
+	return StringStartsWith("muleassist", gszMacroName);
 }
 
 void MuleAssistControl::BurnNow() {
@@ -173,7 +173,7 @@ void MuleAssistControl::SetRaidAssistNum(int raidAssistNum) {
 	boxrRunCommandf("/changema {}", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
 }
 
-bool AlsoKissAssistControl::isRunning() {
+bool AlsoKissAssistControl::IsRunning() {
 	return strstr(gszMacroName, "alsokissassist") != nullptr;
 }
 
@@ -181,45 +181,41 @@ void AlsoKissAssistControl::SetRaidAssistNum(int raidAssistNum) {
 	boxrRunCommandf("/switchma {}", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
 }
 
-const char* getPlayerClassAbbr() {
-	return ClassInfo[GetPcProfile()->Class].ShortName;
-}
-
-bool CwtnControl::isRunning() {
-	return isClassPluginLoaded();
+bool CwtnControl::IsRunning() {
+	return IsClassPluginLoaded();
 }
 
 void CwtnControl::Pause() {
-	boxrRunCommandf("/{} pause on", getPlayerClassAbbr());
+	boxrRunCommandf("/{} pause on", GetClassCommand());
 }
 
 void CwtnControl::Unpause() {
-	boxrRunCommandf("/{} pause off", getPlayerClassAbbr());
+	boxrRunCommandf("/{} pause off", GetClassCommand());
 }
 
 void CwtnControl::Chase() {
-	boxrRunCommandf("/{} mode chase", getPlayerClassAbbr());
+	boxrRunCommandf("/{} mode chase", GetClassCommand());
 }
 
 void CwtnControl::Camp() {
-	boxrRunCommandf("/{} mode assist", getPlayerClassAbbr());
-	boxrRunCommandf("/{} resetcamp", getPlayerClassAbbr());
+	boxrRunCommandf("/{} mode assist", GetClassCommand());
+	boxrRunCommandf("/{} resetcamp", GetClassCommand());
 }
 
 void CwtnControl::Manual() {
-	boxrRunCommandf("/{} mode manual", getPlayerClassAbbr());
+	boxrRunCommandf("/{} mode manual", GetClassCommand());
 }
 
 void CwtnControl::BurnNow() {
-	boxrRunCommandf("/{} BurnNow", getPlayerClassAbbr());
+	boxrRunCommandf("/{} BurnNow", GetClassCommand());
 }
 
 void CwtnControl::SetRaidAssistNum(int raidAssistNum) {
-	boxrRunCommandf("/{} raidassistnum {}", getPlayerClassAbbr(), raidAssistNum);
+	boxrRunCommandf("/{} raidassistnum {}", GetClassCommand(), raidAssistNum);
 }
 
-bool EntropyControl::isRunning() {
-	return stringStartsWith("entropy", gszMacroName);
+bool EntropyControl::IsRunning() {
+	return StringStartsWith("entropy", gszMacroName);
 }
 
 void EntropyControl::Pause() {
@@ -251,8 +247,9 @@ void EntropyControl::BurnNow() {
 void EntropyControl::SetRaidAssistNum(int raidAssistNum) {
 	boxrRunCommandf("/cc ass smart {}", raidAssistNum);
 }
-bool XGenControl::isRunning() {
-	return stringStartsWith("xgen", gszMacroName);
+
+bool XGenControl::IsRunning() {
+	return StringStartsWith("xgen", gszMacroName);
 }
 
 void XGenControl::Pause() {
@@ -286,15 +283,19 @@ void XGenControl::SetRaidAssistNum(int raidAssistNum) {
 	boxrRunCommandf("/cc setassist {}", raidAssistNum);
 }
 
-bool isClassPluginLoaded() {
-	const char* classPluginName = getClassPlugin();
+const char* CwtnControl::GetClassCommand() {
+	return ClassInfo[GetPcProfile()->Class].ShortName;
+}
+
+bool CwtnControl::IsClassPluginLoaded() {
+	const char* classPluginName = GetClassPlugin();
 	if (classPluginName == nullptr) {
 		return false;
 	}
 	return IsPluginLoaded(classPluginName);
 }
 
-const char* getClassPlugin() {
+const char* CwtnControl::GetClassPlugin() {
 	switch (GetPcProfile()->Class) {
 	case Bard:
 		return "MQ2Bard";
