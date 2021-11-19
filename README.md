@@ -24,7 +24,11 @@ running.
 The following sections document how each boxr command maps to the different
 plugins/macros.
 
-#### CWTN plugins
+Boxr has a **key** for each automation, which is listed after the name in the following
+sections. This key is currently only used to identify the current automation in the
+TLO (see below).
+
+#### CWTN plugins (`cwtn`)
 
 The mapping to CWTN commands is very straight-forward
 
@@ -36,7 +40,7 @@ The mapping to CWTN commands is very straight-forward
 | `BurnNow`            | `/war BurnNow`
 | `RaidAssistNum <N>`  | `/war RaidAssistNum <N>`
 
-#### KissAssist
+#### KissAssist (`kissassist`)
 
 | Boxr command         | Action
 |----------------------|-------------
@@ -46,7 +50,7 @@ The mapping to CWTN commands is very straight-forward
 | `BurnNow`            | `/burn on doburn`
 | `RaidAssistNum <N>`  | `/switchma <Name of Raid MA #N> tank 1`
 
-#### MuleAssist
+#### MuleAssist (`muleassist`)
 
 | Boxr command         | Action
 |----------------------|-------------
@@ -56,7 +60,7 @@ The mapping to CWTN commands is very straight-forward
 | `BurnNow`            | `/burn`
 | `RaidAssistNum <N>`  | `/changema <Name of Raid MA #N>`
 
-#### AlsoKissAssist
+#### AlsoKissAssist (`alsokissassist`)
 
 | Boxr command         | Action
 |----------------------|-------------
@@ -66,7 +70,7 @@ The mapping to CWTN commands is very straight-forward
 | `BurnNow`            | `/burn on doburn`
 | `RaidAssistNum <N>`  | `/switchma <Name of Raid MA #N>`
 
-#### rgmercs
+#### rgmercs (`rgmercs`)
 
 | Boxr command         | Action
 |----------------------|-------------
@@ -76,7 +80,7 @@ The mapping to CWTN commands is very straight-forward
 | `BurnNow`            | *Not supported*
 | `RaidAssistNum <N>`  | `/rg AssistOutside 1`<br />`/rg OutsideAssistList <Name of Raid MA #N>`
 
-#### Entropy
+#### Entropy (`enthropy`)
 
 | Boxr command         | Action
 |----------------------|-------------
@@ -86,7 +90,7 @@ The mapping to CWTN commands is very straight-forward
 | `BurnNow`            | `/burn force on`<br/>Will burn until force burn is toggled off again.
 | `RaidAssistNum <N>`  | `/cc ass smart <N>`
 
-#### XGen
+#### XGen (`xgen`)
 
 | Boxr command         | Action
 |----------------------|-------------
@@ -95,3 +99,12 @@ The mapping to CWTN commands is very straight-forward
 | `Manual`             | `/cc manual`
 | `BurnNow`            | `/cc burnonce`
 | `RaidAssistNum <N>`  | `/cc setassist <N>`
+
+### TLO
+
+MQ2Boxr provides a TLO, `Boxr`, which exposes the following data:
+
+| Member               | Type    |Data                                                 | Values
+|----------------------|---------|-----------------------------------------------------|--------------
+| `${Boxr.Current}`    | String  | Key of the automation that is controlling the toon  | `cwtn`, `enthropy`, `kissassist`, etc
+| `${Boxr.Paused}`     | Boolean | Indicates whether the automation is currenly paused | `TRUE`, `FALSE`

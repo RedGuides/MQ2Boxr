@@ -1,4 +1,5 @@
 #include "boxr.h"
+#include "boxr_type.h"
 
 PLUGIN_VERSION(0.1);
 PreSetup("MQ2Boxr");
@@ -112,6 +113,7 @@ void BoxrCommand(SPAWNINFO* pChar, char* szLine) {
 // Called once, when the plugin is to initialize
 PLUGIN_API VOID InitializePlugin(VOID) {
 	DebugSpewAlways("Initializing MQ2Boxr");
+	MQ2BoxrType::RegisterBoxrType();
 	AddCommand("/boxr", BoxrCommand);
 }
 
@@ -119,4 +121,5 @@ PLUGIN_API VOID InitializePlugin(VOID) {
 PLUGIN_API VOID ShutdownPlugin(VOID) {
 	DebugSpewAlways("Shutting down MQ2Boxr");
 	RemoveCommand("/boxr");
+	MQ2BoxrType::UnregisterBoxrType();
 }
