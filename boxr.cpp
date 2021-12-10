@@ -141,7 +141,7 @@ void KissAssistControl::Manual() {
 }
 
 void KissAssistControl::BurnNow() {
-	BOXR_RUN_COMMANDF("/burn");
+	BOXR_RUN_COMMANDF("/burn on doburn");
 }
 
 void KissAssistControl::SetRaidAssistNum(int raidAssistNum) {
@@ -150,6 +150,10 @@ void KissAssistControl::SetRaidAssistNum(int raidAssistNum) {
 
 bool MuleAssistControl::isRunning() {
 	return stringStartsWith("muleassist", gszMacroName);
+}
+
+void MuleAssistControl::BurnNow() {
+	BOXR_RUN_COMMANDF("/burn");
 }
 
 void MuleAssistControl::SetRaidAssistNum(int raidAssistNum) {
