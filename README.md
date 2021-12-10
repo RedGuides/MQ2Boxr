@@ -1,9 +1,8 @@
 ## MQ2Boxr
 
-This plugin provides a command to control boxes running CWTN plugins,
-KissAssist, MuleAssist, and rgmercs. The idea is to have one common command, 
-which can be broadcast to all boxed characters, regardless of what they are 
-running.
+This plugin provides a command to control various combat assistants. The
+idea is to have one common command, which can be broadcast to all boxed
+characters, regardless of what they are running.
 
 ### Commands
 
@@ -55,6 +54,16 @@ The mapping to CWTN commands is very straight-forward
 | `Manual`             | `/chaseoff` <br/> `/camphere off`
 | `BurnNow`            | `/burn`
 | `RaidAssistNum <N>`  | `/changema <Name of Raid MA #N>`
+
+#### AlsoKissAssist
+
+| Boxr command         | Action
+|----------------------|-------------
+| `Camp`               | `/camphere on`
+| `Chase`              | `/chaseon`
+| `Manual`             | `/chaseoff` <br/> `/camphere off`
+| `BurnNow`            | `/burn on doburn`
+| `RaidAssistNum <N>`  | `/switchma <Name of Raid MA #N>`
 
 #### rgmercs
 

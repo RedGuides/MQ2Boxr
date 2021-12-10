@@ -54,6 +54,7 @@ MasterBoxControl::MasterBoxControl() {
 	boxes.push_back(std::make_shared<RGMercsControl>());
 	boxes.push_back(std::make_shared<KissAssistControl>());
 	boxes.push_back(std::make_shared<MuleAssistControl>());
+	boxes.push_back(std::make_shared<AlsoKissAssistControl>());
 	boxes.push_back(std::make_shared<CwtnControl>());
 }
 
@@ -158,6 +159,14 @@ void MuleAssistControl::BurnNow() {
 
 void MuleAssistControl::SetRaidAssistNum(int raidAssistNum) {
 	BOXR_RUN_COMMANDF("/changema %s", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
+}
+
+bool AlsoKissAssistControl::isRunning() {
+	return strstr(gszMacroName, "alsokissassist") != nullptr;
+}
+
+void AlsoKissAssistControl::SetRaidAssistNum(int raidAssistNum) {
+	BOXR_RUN_COMMANDF("/switchma %s", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
 }
 
 const char* getPlayerClassAbbr() {

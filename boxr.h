@@ -61,6 +61,13 @@ public:
 	void SetRaidAssistNum(int raidAssistNum) override;
 };
 
+class AlsoKissAssistControl : public KissAssistControl {
+public:
+	const char* GetName() override { return "AlsoKissAssist"; }
+	bool isRunning() override;
+	void SetRaidAssistNum(int raidAssistNum) override;
+};
+
 class CwtnControl : public BoxControl {
 public:
 	const char* GetName() override { return getClassPlugin(); }
