@@ -43,7 +43,7 @@ The mapping to CWTN commands is very straight-forward
 | `Camp`               | `/camphere on`
 | `Chase`              | `/chaseon`
 | `Manual`             | `/chaseoff` <br/> `/camphere off`
-| `BurnNow`            | `/burn`
+| `BurnNow`            | `/burn on doburn`
 | `RaidAssistNum <N>`  | `/switchma <Name of Raid MA #N> tank 1`
 
 #### MuleAssist
@@ -52,8 +52,19 @@ The mapping to CWTN commands is very straight-forward
 |----------------------|-------------
 | `Camp`               | `/camphere on`
 | `Chase`              | `/chaseon`
+| `Manual`             | `/chaseoff` <br/> `/camphere off`
 | `BurnNow`            | `/burn`
 | `RaidAssistNum <N>`  | `/changema <Name of Raid MA #N>`
+
+#### AlsoKissAssist
+
+| Boxr command         | Action
+|----------------------|-------------
+| `Camp`               | `/camphere on`
+| `Chase`              | `/chaseon`
+| `Manual`             | `/chaseoff` <br/> `/camphere off`
+| `BurnNow`            | `/burn on doburn`
+| `RaidAssistNum <N>`  | `/switchma <Name of Raid MA #N>`
 
 #### rgmercs
 

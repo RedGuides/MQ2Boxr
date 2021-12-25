@@ -57,6 +57,14 @@ class MuleAssistControl : public KissAssistControl {
 public:
 	const char* GetName() override { return "MuleAssist"; }
 	bool isRunning() override;
+	void BurnNow() override;
+	void SetRaidAssistNum(int raidAssistNum) override;
+};
+
+class AlsoKissAssistControl : public KissAssistControl {
+public:
+	const char* GetName() override { return "AlsoKissAssist"; }
+	bool isRunning() override;
 	void SetRaidAssistNum(int raidAssistNum) override;
 };
 

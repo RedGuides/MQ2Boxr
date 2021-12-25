@@ -54,6 +54,7 @@ MasterBoxControl::MasterBoxControl() {
 	boxes.push_back(std::make_shared<KissAssistControl>());
 	boxes.push_back(std::make_shared<MuleAssistControl>());
 	boxes.push_back(std::make_shared<EntropyControl>());
+	boxes.push_back(std::make_shared<AlsoKissAssistControl>());
 	boxes.push_back(std::make_shared<CwtnControl>());
 }
 
@@ -141,7 +142,7 @@ void KissAssistControl::Manual() {
 }
 
 void KissAssistControl::BurnNow() {
-	BOXR_RUN_COMMANDF("/burn");
+	BOXR_RUN_COMMANDF("/burn on doburn");
 }
 
 void KissAssistControl::SetRaidAssistNum(int raidAssistNum) {
@@ -152,8 +153,20 @@ bool MuleAssistControl::isRunning() {
 	return stringStartsWith("muleassist", gszMacroName);
 }
 
+void MuleAssistControl::BurnNow() {
+	BOXR_RUN_COMMANDF("/burn");
+}
+
 void MuleAssistControl::SetRaidAssistNum(int raidAssistNum) {
 	BOXR_RUN_COMMANDF("/changema %s", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
+}
+
+bool AlsoKissAssistControl::isRunning() {
+	return strstr(gszMacroName, "alsokissassist") != nullptr;
+}
+
+void AlsoKissAssistControl::SetRaidAssistNum(int raidAssistNum) {
+	BOXR_RUN_COMMANDF("/switchma %s", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
 }
 
 const char* getPlayerClassAbbr() {
