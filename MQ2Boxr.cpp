@@ -6,7 +6,7 @@ PreSetup("MQ2Boxr");
 std::vector<std::string> getArgVector(const std::string& argsString, const std::string& delimiter = " ") {
 	auto args = std::vector<std::string>();
 	size_t nextDelimiterStartPos;
-	int nextTokenStartPos = 0;
+	size_t nextTokenStartPos = 0;
 	while ((nextDelimiterStartPos = argsString.find(delimiter, nextTokenStartPos)) != std::string::npos) {
 		size_t tokenLength = nextDelimiterStartPos - nextTokenStartPos;
 		args.push_back(argsString.substr(nextTokenStartPos, tokenLength));
