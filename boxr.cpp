@@ -101,7 +101,7 @@ void RGMercsControl::Camp() {
 
 void RGMercsControl::Manual() {
 	BOXR_RUN_COMMANDF("/rg chaseoff");
-	BOXR_RUN_COMMANDF("/timed 1 /rg campoff");
+	BOXR_RUN_COMMANDF("/timed 2 /rg campoff");
 }
 
 void RGMercsControl::BurnNow() {
@@ -110,7 +110,7 @@ void RGMercsControl::BurnNow() {
 
 void RGMercsControl::SetRaidAssistNum(int raidAssistNum) {
 	BOXR_RUN_COMMANDF("/rg AssistOutside 1");
-	BOXR_RUN_COMMANDF("/timed 1 /rg OutsideAssistList %s", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
+	BOXR_RUN_COMMANDF("/timed 2 /rg OutsideAssistList %s", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
 }
 
 bool KissAssistControl::isRunning() {
@@ -138,7 +138,7 @@ void KissAssistControl::Manual() {
 	BOXR_RUN_COMMANDF("/chaseoff");
 	// Macros seem to sometimes miss the second command if they are run
 	// in too quick succession on slower systems, thus the /timed here
-	BOXR_RUN_COMMANDF("/timed 1 /camphere off ");
+	BOXR_RUN_COMMANDF("/timed 2 /camphere off ");
 }
 
 void KissAssistControl::BurnNow() {
@@ -224,7 +224,7 @@ void EntropyControl::Chase() {
 
 void EntropyControl::Camp() {
 	BOXR_RUN_COMMANDF("/tie off");
-	BOXR_RUN_COMMANDF("/timed 1 /home set on");
+	BOXR_RUN_COMMANDF("/timed 2 /home set on");
 }
 
 void EntropyControl::Manual() {
