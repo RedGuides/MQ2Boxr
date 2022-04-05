@@ -1,5 +1,7 @@
 #pragma once
+#include <queue>
 #include <mq/Plugin.h>
+#include <string>
 
 #define LOG_HEADER "\a-t[\atMQ2Boxr\ax] "
 #define LOG(MSG, ...) WriteChatf(LOG_HEADER MSG, __VA_ARGS__)
@@ -7,6 +9,8 @@
 #define LOG_DEBUG(MSG, ...) if(debugEnabled) WriteChatf(LOG_HEADER "\a-y[\ayDEBUG\a-y] \ao" MSG, __VA_ARGS__)
 
 extern bool debugEnabled;
+
+extern std::queue<std::string> macroQueue;
 
 bool isClassPluginLoaded();
 
