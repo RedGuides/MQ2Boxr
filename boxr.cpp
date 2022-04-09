@@ -4,6 +4,10 @@
 #define DEBUG_LOG_AND_RUN(CMD, ...) LOG_DEBUG("Running command: " CMD, __VA_ARGS__); DoCommandf(CMD, __VA_ARGS__);
 #define BOXR_RUN_COMMANDF(...) if (debugEnabled) { DEBUG_LOG_AND_RUN(__VA_ARGS__) } else  { SQUELCH(__VA_ARGS__) }
 
+// Need to pace macro commands; the macro has to issue a /doevents between
+// each command.
+#define MACRO_COMMAND_DELAY "/timed 3 "
+
 bool debugEnabled = false;
 
 void MasterBoxControl::Pause() {
@@ -101,7 +105,7 @@ void RGMercsControl::Camp() {
 
 void RGMercsControl::Manual() {
 	BOXR_RUN_COMMANDF("/rg chaseoff");
-	BOXR_RUN_COMMANDF("/timed 1 /rg campoff");
+	BOXR_RUN_COMMANDF(MACRO_COMMAND_DELAY "/rg campoff");
 }
 
 void RGMercsControl::BurnNow() {
@@ -110,7 +114,7 @@ void RGMercsControl::BurnNow() {
 
 void RGMercsControl::SetRaidAssistNum(int raidAssistNum) {
 	BOXR_RUN_COMMANDF("/rg AssistOutside 1");
-	BOXR_RUN_COMMANDF("/timed 1 /rg OutsideAssistList %s", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
+	BOXR_RUN_COMMANDF(MACRO_COMMAND_DELAY "/rg OutsideAssistList %s", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
 }
 
 bool KissAssistControl::isRunning() {
@@ -136,9 +140,7 @@ void KissAssistControl::Camp() {
 
 void KissAssistControl::Manual() {
 	BOXR_RUN_COMMANDF("/chaseoff");
-	// Macros seem to sometimes miss the second command if they are run
-	// in too quick succession on slower systems, thus the /timed here
-	BOXR_RUN_COMMANDF("/timed 1 /camphere off ");
+	BOXR_RUN_COMMANDF(MACRO_COMMAND_DELAY "/camphere off ");
 }
 
 void KissAssistControl::BurnNow() {
@@ -224,7 +226,7 @@ void EntropyControl::Chase() {
 
 void EntropyControl::Camp() {
 	BOXR_RUN_COMMANDF("/tie off");
-	BOXR_RUN_COMMANDF("/timed 1 /home set on");
+	BOXR_RUN_COMMANDF(MACRO_COMMAND_DELAY "/home set on");
 }
 
 void EntropyControl::Manual() {
