@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include <string>
 #include <mq/Plugin.h>
 #include <fmt/format.h>
 
