@@ -1,11 +1,14 @@
 #include "boxr.h"
 
+#include <fmt/format.h>
+#include <string_view>
+
 // Need to pace macro commands; the macro has to issue a /doevents between
 // each command.
 #define MACRO_COMMAND_DELAY "/timed 3 "
 
 template <typename... Args>
-void boxrRunCommandf(std::string format, Args&&... args) {
+void boxrRunCommandf(std::string_view format, Args&&... args) {
 	auto command = fmt::format(format, std::forward<Args>(args)...);
 	if (LOGGER.isDebugEnabled()) {
 		DoCommandf(command.c_str());

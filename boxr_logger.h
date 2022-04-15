@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+#include <string_view>
 #include <mq/Plugin.h>
 #include <fmt/format.h>
 
@@ -28,17 +28,17 @@ public:
 	}
 
 	template <typename... Args>
-	void error(std::string messageFormat, Args ...args) {
+	void error(std::string_view messageFormat, Args ...args) {
 		doLog(errorFormat, messageFormat, std::forward<Args>(args)...);
 	}
 
 	template <typename... Args>
-	void info(std::string messageFormat, Args ...args) {
+	void info(std::string_view messageFormat, Args ...args) {
 		doLog(infoFormat, messageFormat, std::forward<Args>(args)...);
 	}
 
 	template <typename... Args>
-	void debug(std::string messageFormat, Args ...args) {
+	void debug(std::string_view messageFormat, Args ...args) {
 		if (!debugEnabled) {
 			return;
 		}
@@ -49,13 +49,13 @@ private:
 	BoxrLogger() {};
 	bool debugEnabled = false;
 
-	static constexpr std::string_view infoFormat = LOG_HEADER "%s";
-	static constexpr std::string_view debugFormat = LOG_HEADER "\a-y[\ayDEBUG\a-y] \ao %s";
-	static constexpr std::string_view errorFormat = LOG_HEADER "\a-r[\arERROR\ax] \ao %s";
+	static constexpr char* infoFormat = LOG_HEADER "%s";
+	static constexpr char* debugFormat = LOG_HEADER "\a-y[\ayDEBUG\a-y] \ao %s";
+	static constexpr char* errorFormat = LOG_HEADER "\a-r[\arERROR\ax] \ao %s";
 
 	template<typename ...Args>
-	void doLog(std::string_view logFormat, std::string messageFormat, Args ...args) {
+	void doLog(const char* logFormat, std::string_view messageFormat, Args ...args) {
 		auto message = fmt::format(messageFormat, std::forward<Args>(args)...);
-		WriteChatf(logFormat.data(), message.c_str());
+		WriteChatf(logFormat, message.c_str());
 	}
 };
