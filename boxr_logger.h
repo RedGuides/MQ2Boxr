@@ -3,7 +3,7 @@
 #include <mq/Plugin.h>
 #include <fmt/format.h>
 
-#define LOG_HEADER "\a-t[\atMQ2Boxr\ax] "
+#define BOXR_LOG_HEADER "\a-t[\atMQ2Boxr\ax] "
 
 class BoxrLogger {
 public:
@@ -49,9 +49,9 @@ private:
 	BoxrLogger() {};
 	bool debugEnabled = false;
 
-	static constexpr char* infoFormat = LOG_HEADER "%s";
-	static constexpr char* debugFormat = LOG_HEADER "\a-y[\ayDEBUG\a-y] \ao %s";
-	static constexpr char* errorFormat = LOG_HEADER "\a-r[\arERROR\ax] \ao %s";
+	const char* infoFormat = BOXR_LOG_HEADER "%s";
+	const char* debugFormat = BOXR_LOG_HEADER "\a-y[\ayDEBUG\a-y] \ao %s";
+	const char* errorFormat = BOXR_LOG_HEADER "\a-r[\arERROR\ax] \ao %s";
 
 	template<typename ...Args>
 	void doLog(const char* logFormat, std::string_view messageFormat, Args ...args) {
