@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="boxr.h" />
+    <ClInclude Include="boxr_logger.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

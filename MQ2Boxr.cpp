@@ -33,7 +33,7 @@ bool parseBoolArg(std::string arg) {
 }
 
 void printUsage() {
-	LOG("Boxr commands:\n"
+	LOGGER.info("Boxr commands:\n"
 		"\a-t|\ax  \ay/boxr Pause\ax - Pauses the character\n"
 		"\a-t|\ax  \ay/boxr Unpause\ax - Unpause the character\n"
 		"\a-t|\ax  \ay/boxr Chase\ax - Sets navivation to chase assisted character, and stop camping\n"
@@ -48,7 +48,7 @@ void printUsage() {
 
 void BoxrCommand(SPAWNINFO* pChar, char* szLine) {
 	if (GetGameState() != GAMESTATE_INGAME) {
-		LOG_ERROR("Was asked to do '%s', but am not in game");
+		LOGGER.error("Was asked to do '{}', but am not in game");
 		return;
 	}
 
@@ -70,40 +70,42 @@ void BoxrCommand(SPAWNINFO* pChar, char* szLine) {
 		MasterBoxControl::getInstance().BurnNow();
 	} else if (iStrEquals("raidassistnum", argVector.front())) {
 		if (argVector.size() != 2) {
-			LOG_ERROR("/boxr RaidAssistNum: expected exactly one argument, but got %d", argVector.size() - 1);
+			LOGGER.error("/boxr RaidAssistNum: expected exactly one argument, but got {}", argVector.size() - 1);
 			return;
 		}
 		try {
 			int raidAssistNum = std::stoi(argVector.at(1));
 			if (raidAssistNum < 1 || raidAssistNum > 3) {
-				LOG_ERROR("/boxr RaidAssistNum: RaidAssistNum must be either 1, 2, or 3.");
+				LOGGER.error("/boxr RaidAssistNum: RaidAssistNum must be either 1, 2, or 3.");
 				return;
 			}
 #if defined(ROF2EMU) || defined(UFEMU)
-			LOG_ERROR("/boxr RaidAssistNum: There is no main assist %d on EMU", raidAssistNum);
+			LOGGER.error("/boxr RaidAssistNum: There is no main assist {} on EMU", raidAssistNum);
 			return;
 #else
 			if (!GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]) {
-				LOG_ERROR("/boxr RaidAssistNum: There is no main assist %d", raidAssistNum);
+				LOGGER.error("/boxr RaidAssistNum: There is no main assist {}", raidAssistNum);
 				return;
 			}
 #endif
 			MasterBoxControl::getInstance().RaidAssistNum(raidAssistNum);
 		} catch (std::invalid_argument& e) {
 			UNREFERENCED_PARAMETER(e);
-			LOG_ERROR("/boxr raidassistnum: invalid argument - expected 1, 2, or 3, but got: %s", argVector.at(1).c_str());
+			LOGGER.error("/boxr raidassistnum: invalid argument - expected 1, 2, or 3, but got: {}", argVector.at(1).c_str());
 		}
 	} else if (iStrEquals("debug", argVector.front())) {
 		try {
-			debugEnabled = (argVector.size() == 1)
-				? !debugEnabled
-				: parseBoolArg(argVector.at(1));
-			LOG("Debug logging %s", debugEnabled ? "enabled" : "disabled");
+			if (argVector.size() == 1) {
+				LOGGER.toggleDebugEnabled();
+			} else {
+				LOGGER.setDebugEnabled(parseBoolArg(argVector.at(1)));
+			}
+			LOGGER.info("Debug logging {}", LOGGER.isDebugEnabled() ? "enabled" : "disabled");
 		} catch (std::invalid_argument& e) {
-			LOG_ERROR("/boxr debug: %s", e.what());
+			LOGGER.error("/boxr debug: {}", e.what());
 		}
 	} else {
-		LOG("Do not understand command: %s", szLine);
+		LOGGER.info("Do not understand command: {}", szLine);
 	}
 }
 

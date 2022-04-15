@@ -1,53 +1,59 @@
 #include "boxr.h"
 
-#define SQUELCH(CMD, ...) DoCommandf("/squelch " CMD, __VA_ARGS__);
-#define DEBUG_LOG_AND_RUN(CMD, ...) LOG_DEBUG("Running command: " CMD, __VA_ARGS__); DoCommandf(CMD, __VA_ARGS__);
-#define BOXR_RUN_COMMANDF(...) if (debugEnabled) { DEBUG_LOG_AND_RUN(__VA_ARGS__) } else  { SQUELCH(__VA_ARGS__) }
-
 // Need to pace macro commands; the macro has to issue a /doevents between
 // each command.
 #define MACRO_COMMAND_DELAY "/timed 3 "
 
-bool debugEnabled = false;
+template <typename... Args>
+void boxrRunCommandf(std::string format, Args&&... args) {
+	auto command = fmt::format(format, std::forward<Args>(args)...);
+	if (LOGGER.isDebugEnabled()) {
+		DoCommandf(command.c_str());
+		LOGGER.debug("Running Command: {}", command);
+	}
+	else {
+		DoCommandf("/squelch %s", command.c_str());
+	}
+}
 
 void MasterBoxControl::Pause() {
 	auto box = getBox();
-	LOG("Pausing %s", box->GetName());
+	LOGGER.info("Pausing {}", box->GetName());
 	box->Pause();
 }
 
 void MasterBoxControl::Unpause() {
 	auto box = getBox();
-	LOG("Unpausing %s", box->GetName());
+	LOGGER.info("Unpausing {}", box->GetName());
 	box->Unpause();
 }
 
 void MasterBoxControl::Chase() {
-	LOG("Setting \ayCHASE\ax mode");
+	LOGGER.info("Setting \ayCHASE\ax mode");
 	getBox()->Chase();
 }
 
 void MasterBoxControl::Camp() {
-	LOG("Setting \ayCAMP\ax mode");
+	LOGGER.info("Setting \ayCAMP\ax mode");
 	getBox()->Camp();
 }
 
 void MasterBoxControl::Manual() {
-	LOG("Setting \ayMANUAL\ax mode");
+	LOGGER.info("Setting \ayMANUAL\ax mode");
 	getBox()->Manual();
 }
 
 void MasterBoxControl::BurnNow() {
-	LOG("Burn phase NOW!");
+	LOGGER.info("Burn phase NOW!");
 	getBox()->BurnNow();
 }
 
 void MasterBoxControl::RaidAssistNum(int raidAssistNum) {
-	LOG("Setting \a-tRaidAssistNum\ax to \at%d\ax (\at%s\ax)", raidAssistNum,
+	LOGGER.info("Setting \a-tRaidAssistNum\ax to \at{}\ax (\at{}\ax)", raidAssistNum,
 		GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
-	LOG_DEBUG("RaidAssist 1: %s", GetCharInfo()->raidData.MainAssistNames[0]);
-	LOG_DEBUG("RaidAssist 2: %s", GetCharInfo()->raidData.MainAssistNames[1]);
-	LOG_DEBUG("RaidAssist 3: %s", GetCharInfo()->raidData.MainAssistNames[2]);
+	LOGGER.debug("RaidAssist 1: {}", GetCharInfo()->raidData.MainAssistNames[0]);
+	LOGGER.debug("RaidAssist 2: {}", GetCharInfo()->raidData.MainAssistNames[1]);
+	LOGGER.debug("RaidAssist 3: {}", GetCharInfo()->raidData.MainAssistNames[2]);
 	getBox()->SetRaidAssistNum(raidAssistNum);
 }
 
@@ -69,7 +75,7 @@ bool stringStartsWith(const char* pre, const char* str) {
 std::shared_ptr<BoxControl> MasterBoxControl::getBox() {
 	for (std::shared_ptr<BoxControl> box : boxes) {
 		if (box->isRunning()) {
-			LOG_DEBUG("Detected running: %s", box->GetName());
+			LOGGER.debug("Detected running: {}", box->GetName());
 			return box;
 		}
 	}
@@ -78,7 +84,7 @@ std::shared_ptr<BoxControl> MasterBoxControl::getBox() {
 
 void pauseTwist() {
 	if (GetPcProfile()->Class == Bard) {
-		BOXR_RUN_COMMANDF("/twist off");
+		boxrRunCommandf("/twist off");
 	}
 }
 
@@ -87,34 +93,34 @@ bool RGMercsControl::isRunning() {
 }
 
 void RGMercsControl::Pause() {
-	BOXR_RUN_COMMANDF("/mqp on");
+	boxrRunCommandf("/mqp on");
 	pauseTwist();
 }
 
 void RGMercsControl::Unpause() {
-	BOXR_RUN_COMMANDF("/mqp off");
+	boxrRunCommandf("/mqp off");
 }
 
 void RGMercsControl::Chase() {
-	BOXR_RUN_COMMANDF("/rg chaseon");
+	boxrRunCommandf("/rg chaseon");
 }
 
 void RGMercsControl::Camp() {
-	BOXR_RUN_COMMANDF("/rg camphard");
+	boxrRunCommandf("/rg camphard");
 }
 
 void RGMercsControl::Manual() {
-	BOXR_RUN_COMMANDF("/rg chaseoff");
-	BOXR_RUN_COMMANDF(MACRO_COMMAND_DELAY "/rg campoff");
+	boxrRunCommandf("/rg chaseoff");
+	boxrRunCommandf(MACRO_COMMAND_DELAY "/rg campoff");
 }
 
 void RGMercsControl::BurnNow() {
-	LOG("BurnNow is not supported for rgmercs");
+	LOGGER.info("BurnNow is not supported for rgmercs");
 }
 
 void RGMercsControl::SetRaidAssistNum(int raidAssistNum) {
-	BOXR_RUN_COMMANDF("/rg AssistOutside 1");
-	BOXR_RUN_COMMANDF(MACRO_COMMAND_DELAY "/rg OutsideAssistList %s", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
+	boxrRunCommandf("/rg AssistOutside 1");
+	boxrRunCommandf(MACRO_COMMAND_DELAY "/rg OutsideAssistList {}", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
 }
 
 bool KissAssistControl::isRunning() {
@@ -122,33 +128,33 @@ bool KissAssistControl::isRunning() {
 }
 
 void KissAssistControl::Pause() {
-	BOXR_RUN_COMMANDF("/mqp on");
+	boxrRunCommandf("/mqp on");
 	pauseTwist();
 }
 
 void KissAssistControl::Unpause() {
-	BOXR_RUN_COMMANDF("/mqp off");
+	boxrRunCommandf("/mqp off");
 }
 
 void KissAssistControl::Chase() {
-	BOXR_RUN_COMMANDF("/chaseon");
+	boxrRunCommandf("/chaseon");
 }
 
 void KissAssistControl::Camp() {
-	BOXR_RUN_COMMANDF("/camphere on");
+	boxrRunCommandf("/camphere on");
 }
 
 void KissAssistControl::Manual() {
-	BOXR_RUN_COMMANDF("/chaseoff");
-	BOXR_RUN_COMMANDF(MACRO_COMMAND_DELAY "/camphere off ");
+	boxrRunCommandf("/chaseoff");
+	boxrRunCommandf(MACRO_COMMAND_DELAY "/camphere off ");
 }
 
 void KissAssistControl::BurnNow() {
-	BOXR_RUN_COMMANDF("/burn on doburn");
+	boxrRunCommandf("/burn on doburn");
 }
 
 void KissAssistControl::SetRaidAssistNum(int raidAssistNum) {
-	BOXR_RUN_COMMANDF("/switchma %s tank 1", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
+	boxrRunCommandf("/switchma {} tank 1", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
 }
 
 bool MuleAssistControl::isRunning() {
@@ -156,11 +162,11 @@ bool MuleAssistControl::isRunning() {
 }
 
 void MuleAssistControl::BurnNow() {
-	BOXR_RUN_COMMANDF("/burn");
+	boxrRunCommandf("/burn");
 }
 
 void MuleAssistControl::SetRaidAssistNum(int raidAssistNum) {
-	BOXR_RUN_COMMANDF("/changema %s", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
+	boxrRunCommandf("/changema {}", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
 }
 
 bool AlsoKissAssistControl::isRunning() {
@@ -168,7 +174,7 @@ bool AlsoKissAssistControl::isRunning() {
 }
 
 void AlsoKissAssistControl::SetRaidAssistNum(int raidAssistNum) {
-	BOXR_RUN_COMMANDF("/switchma %s", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
+	boxrRunCommandf("/switchma {}", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
 }
 
 const char* getPlayerClassAbbr() {
@@ -180,32 +186,32 @@ bool CwtnControl::isRunning() {
 }
 
 void CwtnControl::Pause() {
-	BOXR_RUN_COMMANDF("/%s pause on", getPlayerClassAbbr());
+	boxrRunCommandf("/{} pause on", getPlayerClassAbbr());
 }
 
 void CwtnControl::Unpause() {
-	BOXR_RUN_COMMANDF("/%s pause off", getPlayerClassAbbr());
+	boxrRunCommandf("/{} pause off", getPlayerClassAbbr());
 }
 
 void CwtnControl::Chase() {
-	BOXR_RUN_COMMANDF("/%s mode chase", getPlayerClassAbbr());
+	boxrRunCommandf("/{} mode chase", getPlayerClassAbbr());
 }
 
 void CwtnControl::Camp() {
-	BOXR_RUN_COMMANDF("/%s mode assist", getPlayerClassAbbr());
-	BOXR_RUN_COMMANDF("/%s resetcamp", getPlayerClassAbbr());
+	boxrRunCommandf("/{} mode assist", getPlayerClassAbbr());
+	boxrRunCommandf("/{} resetcamp", getPlayerClassAbbr());
 }
 
 void CwtnControl::Manual() {
-	BOXR_RUN_COMMANDF("/%s mode manual", getPlayerClassAbbr());
+	boxrRunCommandf("/{} mode manual", getPlayerClassAbbr());
 }
 
 void CwtnControl::BurnNow() {
-	BOXR_RUN_COMMANDF("/%s BurnNow", getPlayerClassAbbr());
+	boxrRunCommandf("/{} BurnNow", getPlayerClassAbbr());
 }
 
 void CwtnControl::SetRaidAssistNum(int raidAssistNum) {
-	BOXR_RUN_COMMANDF("/%s raidassistnum %d", getPlayerClassAbbr(), raidAssistNum);
+	boxrRunCommandf("/{} raidassistnum {}", getPlayerClassAbbr(), raidAssistNum);
 }
 
 bool EntropyControl::isRunning() {
@@ -213,33 +219,33 @@ bool EntropyControl::isRunning() {
 }
 
 void EntropyControl::Pause() {
-	BOXR_RUN_COMMANDF("/mqp on");
+	boxrRunCommandf("/mqp on");
 }
 
 void EntropyControl::Unpause() {
-	BOXR_RUN_COMMANDF("/mqp off");
+	boxrRunCommandf("/mqp off");
 }
 
 void EntropyControl::Chase() {
-	BOXR_RUN_COMMANDF("/tie on");
+	boxrRunCommandf("/tie on");
 }
 
 void EntropyControl::Camp() {
-	BOXR_RUN_COMMANDF("/tie off");
-	BOXR_RUN_COMMANDF(MACRO_COMMAND_DELAY "/home set on");
+	boxrRunCommandf("/tie off");
+	boxrRunCommandf(MACRO_COMMAND_DELAY "/home set on");
 }
 
 void EntropyControl::Manual() {
-	BOXR_RUN_COMMANDF("/env auto off");
+	boxrRunCommandf("/env auto off");
 }
 
 void EntropyControl::BurnNow() {
-	BOXR_RUN_COMMANDF("/burn force on");
-	LOG("Will burn all the time. Use \ay/burn force off\ax to stop burning.");
+	boxrRunCommandf("/burn force on");
+	LOGGER.info("Will burn all the time. Use \ay/burn force off\ax to stop burning.");
 }
 
 void EntropyControl::SetRaidAssistNum(int raidAssistNum) {
-	BOXR_RUN_COMMANDF("/cc ass smart %d", raidAssistNum);
+	boxrRunCommandf("/cc ass smart {}", raidAssistNum);
 }
 
 bool isClassPluginLoaded() {
