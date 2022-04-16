@@ -2,8 +2,6 @@
 #include "boxr_logger.h"
 #include <mq/Plugin.h>
 
-#define LOGGER BoxrLogger::getInstance()
-
 bool isClassPluginLoaded();
 
 const char* getClassPlugin();

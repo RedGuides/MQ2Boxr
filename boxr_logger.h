@@ -3,6 +3,7 @@
 #include <mq/Plugin.h>
 #include <fmt/format.h>
 
+#define LOGGER BoxrLogger::getInstance()
 #define BOXR_LOG_HEADER "\a-t[\atMQ2Boxr\ax] "
 
 class BoxrLogger {
@@ -46,7 +47,7 @@ public:
 	}
 
 private:
-	BoxrLogger() {};
+	BoxrLogger() = default;
 	bool debugEnabled = false;
 
 	const char* infoFormat = BOXR_LOG_HEADER "%s";
