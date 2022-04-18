@@ -1,12 +1,6 @@
 #pragma once
+#include "boxr_logger.h"
 #include <mq/Plugin.h>
-
-#define LOG_HEADER "\a-t[\atMQ2Boxr\ax] "
-#define LOG(MSG, ...) WriteChatf(LOG_HEADER MSG, __VA_ARGS__)
-#define LOG_ERROR(MSG, ...) WriteChatf(LOG_HEADER "\a-r[\arERROR\ax] \ao" MSG, __VA_ARGS__)
-#define LOG_DEBUG(MSG, ...) if(debugEnabled) WriteChatf(LOG_HEADER "\a-y[\ayDEBUG\a-y] \ao" MSG, __VA_ARGS__)
-
-extern bool debugEnabled;
 
 bool isClassPluginLoaded();
 
@@ -94,7 +88,7 @@ public:
 	void SetRaidAssistNum(int raidAssistNum) override;
 };
 
-#define LOG_NOOP_WARNING LOG("MQ2Boxr does not have support for whatever is running this toon, sorry.")
+#define LOG_NOOP_WARNING LOGGER.info("MQ2Boxr does not have support for whatever is running this toon, sorry.")
 class NoopControl : public BoxControl {
 public:
 	const char* GetName() override { return "Nothing that is recognized by MQ2Boxr"; }
