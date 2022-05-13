@@ -68,6 +68,7 @@ MasterBoxControl::MasterBoxControl() {
 	boxes.push_back(std::make_shared<MuleAssistControl>());
 	boxes.push_back(std::make_shared<EntropyControl>());
 	boxes.push_back(std::make_shared<AlsoKissAssistControl>());
+	boxes.push_back(std::make_shared<XGenControl>());
 	boxes.push_back(std::make_shared<CwtnControl>());
 }
 
@@ -249,6 +250,40 @@ void EntropyControl::BurnNow() {
 
 void EntropyControl::SetRaidAssistNum(int raidAssistNum) {
 	boxrRunCommandf("/cc ass smart {}", raidAssistNum);
+}
+bool XGenControl::isRunning() {
+	return stringStartsWith("xgen", gszMacroName);
+}
+
+void XGenControl::Pause() {
+	boxrRunCommandf("/mqp on");
+}
+
+void XGenControl::Unpause() {
+	boxrRunCommandf("/mqp off");
+}
+
+void XGenControl::Chase() {
+	boxrRunCommandf("/cc follow");
+	boxrRunCommandf(MACRO_COMMAND_DELAY "/cc camp off");
+}
+
+void XGenControl::Camp() {
+	boxrRunCommandf("/cc camp on");
+	boxrRunCommandf(MACRO_COMMAND_DELAY "/cc follow off");
+}
+
+void XGenControl::Manual() {
+	boxrRunCommandf("/cc manual");
+}
+
+void XGenControl::BurnNow() {
+	boxrRunCommandf("/cc burnonce");
+	LOGGER.info("Will burn current mob only.");
+}
+
+void XGenControl::SetRaidAssistNum(int raidAssistNum) {
+	boxrRunCommandf("/cc setassist {}", raidAssistNum);
 }
 
 bool isClassPluginLoaded() {
