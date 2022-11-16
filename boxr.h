@@ -1,15 +1,12 @@
 #pragma once
 #include "boxr_logger.h"
+#include <exception>
 #include <mq/Plugin.h>
-
-bool isClassPluginLoaded();
-
-const char* getClassPlugin();
 
 class BoxControl {
 public:
 	virtual const char* GetName() = 0;
-	virtual bool isRunning() = 0;
+	virtual bool IsRunning() = 0;
 	virtual void Pause() = 0;
 	virtual void Unpause() = 0;
 	virtual void Chase() = 0;
@@ -24,7 +21,7 @@ public:
 class RGMercsControl : public BoxControl {
 public:
 	const char* GetName() override { return "rgmercs"; }
-	bool isRunning() override;
+	bool IsRunning() override;
 	void Pause() override;
 	void Unpause() override;
 	void Chase() override;
@@ -37,7 +34,7 @@ public:
 class KissAssistControl : public BoxControl {
 public:
 	const char* GetName() override { return "KissAssist"; }
-	bool isRunning() override;
+	bool IsRunning() override;
 	void Pause() override;
 	void Unpause() override;
 	void Chase() override;
@@ -50,7 +47,7 @@ public:
 class MuleAssistControl : public KissAssistControl {
 public:
 	const char* GetName() override { return "MuleAssist"; }
-	bool isRunning() override;
+	bool IsRunning() override;
 	void BurnNow() override;
 	void SetRaidAssistNum(int raidAssistNum) override;
 };
@@ -58,14 +55,14 @@ public:
 class AlsoKissAssistControl : public KissAssistControl {
 public:
 	const char* GetName() override { return "AlsoKissAssist"; }
-	bool isRunning() override;
+	bool IsRunning() override;
 	void SetRaidAssistNum(int raidAssistNum) override;
 };
 
 class CwtnControl : public BoxControl {
 public:
-	const char* GetName() override { return getClassPlugin(); }
-	bool isRunning() override;
+	const char* GetName() override { return GetClassPlugin(); }
+	bool IsRunning() override;
 	void Pause() override;
 	void Unpause() override;
 	void Chase() override;
@@ -73,12 +70,17 @@ public:
 	void Manual() override;
 	void BurnNow() override;
 	void SetRaidAssistNum(int raidAssistNum) override;
+
+private:
+	bool IsClassPluginLoaded();
+	const char* GetClassPlugin();
+	const char* GetClassCommand();
 };
 
 class EntropyControl : public BoxControl {
 public:
 	const char* GetName() override { return "Entropy"; }
-	bool isRunning() override;
+	bool IsRunning() override;
 	void Pause() override;
 	void Unpause() override;
 	void Chase() override;
@@ -91,7 +93,7 @@ public:
 class XGenControl : public BoxControl {
 public:
 	const char* GetName() override { return "Xgen"; }
-	bool isRunning() override;
+	bool IsRunning() override;
 	void Pause() override;
 	void Unpause() override;
 	void Chase() override;
@@ -105,7 +107,7 @@ public:
 class NoopControl : public BoxControl {
 public:
 	const char* GetName() override { return "Nothing that is recognized by MQ2Boxr"; }
-	bool isRunning() override { return true; }
+	bool IsRunning() override { return true; }
 	void Pause() override { LOG_NOOP_WARNING; };
 	void Unpause() override { LOG_NOOP_WARNING; }
 	void Chase() override { LOG_NOOP_WARNING; }
@@ -114,8 +116,6 @@ public:
 	void BurnNow() override { LOG_NOOP_WARNING; }
 	void SetRaidAssistNum(int raidAssistNum) override { LOG_NOOP_WARNING; }
 };
-
-typedef void (BoxControl::* BoxControlMemFn)();
 
 class MasterBoxControl {
 public:
@@ -138,6 +138,6 @@ public:
 private:
 	MasterBoxControl();
 	std::vector<std::shared_ptr<BoxControl>> boxes;
-	std::shared_ptr<BoxControl> getBox();
+	std::shared_ptr<BoxControl> GetBox();
 	std::shared_ptr<NoopControl> noopControl = std::make_shared<NoopControl>();
 };
