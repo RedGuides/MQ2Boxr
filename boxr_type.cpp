@@ -52,9 +52,8 @@ bool MQ2BoxrType::GetPauseState(mq::MQTypeVar& Dest) {
 		Dest.Type = mq::datatypes::pBoolType;
 		Dest.Set(MasterBoxControl::getInstance().IsPaused());
 		return true;
-	}
-	catch (BoxrException& e) {
-		LOGGER.error("{}", e.what());
+	} catch (BoxrException& e) {
+		LOGGER.error(e.what());
 		Dest.Type = mq::datatypes::pBoolType;
 		Dest.Set(nullptr);
 		return false;
