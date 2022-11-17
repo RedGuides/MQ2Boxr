@@ -80,7 +80,7 @@ The mapping to CWTN commands is very straight-forward
 | `BurnNow`            | *Not supported*
 | `RaidAssistNum <N>`  | `/rg AssistOutside 1`<br />`/rg OutsideAssistList <Name of Raid MA #N>`
 
-#### Entropy (`enthropy`)
+#### Entropy (`entropy`)
 
 | Boxr command         | Action
 |----------------------|-------------
