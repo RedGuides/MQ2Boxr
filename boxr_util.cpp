@@ -2,10 +2,6 @@
 #include "boxr_logger.h"
 #include <mq/Plugin.h>
 
-bool StringStartsWith(const char* pre, const char* str) {
-	return _strnicmp(pre, str, strlen(pre)) == 0;
-}
-
 bool EvaluateBooleanMacroExpression(const std::string& expression) {
 	CHAR evaluatedExpression[MAX_STRING];
 	strcpy_s(evaluatedExpression, expression.c_str());

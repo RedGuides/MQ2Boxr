@@ -105,7 +105,7 @@ void PauseTwist() {
 }
 
 bool RGMercsControl::IsRunning() {
-	return StringStartsWith("rgmercs", gszMacroName);
+	return ci_starts_with(gszMacroName, "rgmercs");
 }
 
 void RGMercsControl::Pause() {
@@ -140,7 +140,7 @@ void RGMercsControl::SetRaidAssistNum(int raidAssistNum) {
 }
 
 bool KissAssistControl::IsRunning() {
-	return StringStartsWith("kiss", gszMacroName);
+	return ci_starts_with(gszMacroName, "kiss");
 }
 
 void KissAssistControl::Pause() {
@@ -174,7 +174,7 @@ void KissAssistControl::SetRaidAssistNum(int raidAssistNum) {
 }
 
 bool MuleAssistControl::IsRunning() {
-	return StringStartsWith("muleassist", gszMacroName);
+	return ci_starts_with(gszMacroName, "muleassist");
 }
 
 void MuleAssistControl::BurnNow() {
@@ -227,7 +227,7 @@ void CwtnControl::SetRaidAssistNum(int raidAssistNum) {
 }
 
 bool EntropyControl::IsRunning() {
-	return StringStartsWith("entropy", gszMacroName);
+	return ci_starts_with(gszMacroName, "entropy");
 }
 
 void EntropyControl::Pause() {
@@ -261,7 +261,7 @@ void EntropyControl::SetRaidAssistNum(int raidAssistNum) {
 }
 
 bool XGenControl::IsRunning() {
-	return StringStartsWith("xgen", gszMacroName);
+	return ci_starts_with(gszMacroName, "xgen");
 }
 
 void XGenControl::Pause() {
