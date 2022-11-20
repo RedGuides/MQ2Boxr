@@ -74,11 +74,15 @@
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="boxr.cpp" />
+    <ClCompile Include="boxr_type.cpp" />
+    <ClCompile Include="boxr_util.cpp" />
     <ClCompile Include="MQ2Boxr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="boxr.h" />
     <ClInclude Include="boxr_logger.h" />
+    <ClInclude Include="boxr_type.h" />
+    <ClInclude Include="boxr_util.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
