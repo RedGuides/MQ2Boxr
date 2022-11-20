@@ -66,6 +66,7 @@ void MasterBoxControl::RaidAssistNum(int raidAssistNum) {
 bool MasterBoxControl::IsPaused() {
 	auto box = GetBox();
 	try {
+		LOGGER.debug("Checking if \aw{}\ax is paused by evaluating '\ay{}\ax'", box->GetName(), box->GetPauseQuery());
 		return EvaluateBooleanMacroExpression(box->GetPauseQuery());
 	} catch (std::runtime_error &e) {
 		throw InvalidBoxConfigurationException(fmt::format("Unable to determine whether \aw{}\ax is paused: {}", box->GetName(), e.what()));
