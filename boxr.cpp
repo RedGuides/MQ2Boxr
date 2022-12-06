@@ -1,5 +1,8 @@
+#include <fmt/format.h>
+
 #include "boxr.h"
 
+#include "boxr_util.h"
 #include <fmt/format.h>
 #include <string_view>
 
@@ -60,6 +63,20 @@ void MasterBoxControl::RaidAssistNum(int raidAssistNum) {
 	GetBox()->SetRaidAssistNum(raidAssistNum);
 }
 
+bool MasterBoxControl::IsPaused() {
+	auto box = GetBox();
+	try {
+		LOGGER.debug("Checking if \aw{}\ax is paused by evaluating '\ay{}\ax'", box->GetName(), box->GetPauseQuery());
+		return EvaluateBooleanMacroExpression(box->GetPauseQuery());
+	} catch (std::runtime_error &e) {
+		throw InvalidBoxConfigurationException(fmt::format("Unable to determine whether \aw{}\ax is paused: {}", box->GetName(), e.what()));
+	}
+}
+
+std::string MasterBoxControl::Current() {
+	return GetBox()->GetKey();
+}
+
 MasterBoxControl::MasterBoxControl() {
 	// Assume that if a macro is running, it is controlling the character, even if
 	// a the class's CWTN plugin is loaded (since otherwise, why start the macro?)
@@ -70,10 +87,6 @@ MasterBoxControl::MasterBoxControl() {
 	boxes.push_back(std::make_shared<AlsoKissAssistControl>());
 	boxes.push_back(std::make_shared<XGenControl>());
 	boxes.push_back(std::make_shared<CwtnControl>());
-}
-
-bool StringStartsWith(const char* pre, const char* str) {
-	return _strnicmp(pre, str, strlen(pre)) == 0;
 }
 
 std::shared_ptr<BoxControl> MasterBoxControl::GetBox() {
@@ -93,7 +106,7 @@ void PauseTwist() {
 }
 
 bool RGMercsControl::IsRunning() {
-	return StringStartsWith("rgmercs", gszMacroName);
+	return ci_starts_with(gszMacroName, "rgmercs");
 }
 
 void RGMercsControl::Pause() {
@@ -128,7 +141,7 @@ void RGMercsControl::SetRaidAssistNum(int raidAssistNum) {
 }
 
 bool KissAssistControl::IsRunning() {
-	return StringStartsWith("kiss", gszMacroName);
+	return ci_starts_with(gszMacroName, "kiss");
 }
 
 void KissAssistControl::Pause() {
@@ -162,7 +175,7 @@ void KissAssistControl::SetRaidAssistNum(int raidAssistNum) {
 }
 
 bool MuleAssistControl::IsRunning() {
-	return StringStartsWith("muleassist", gszMacroName);
+	return ci_starts_with(gszMacroName, "muleassist");
 }
 
 void MuleAssistControl::BurnNow() {
@@ -215,7 +228,7 @@ void CwtnControl::SetRaidAssistNum(int raidAssistNum) {
 }
 
 bool EntropyControl::IsRunning() {
-	return StringStartsWith("entropy", gszMacroName);
+	return ci_starts_with(gszMacroName, "entropy");
 }
 
 void EntropyControl::Pause() {
@@ -249,7 +262,7 @@ void EntropyControl::SetRaidAssistNum(int raidAssistNum) {
 }
 
 bool XGenControl::IsRunning() {
-	return StringStartsWith("xgen", gszMacroName);
+	return ci_starts_with(gszMacroName, "xgen");
 }
 
 void XGenControl::Pause() {
