@@ -20,6 +20,11 @@ public:
 	UnsupportedBoxException(const std::string& message) : BoxrException(message) {}
 };
 
+class UnsupportedBoxrOperationException : public BoxrException {
+public:
+	UnsupportedBoxrOperationException(const std::string& message) : BoxrException(message) {}
+};
+
 class BoxControl {
 public:
 	virtual const char* GetKey() = 0;
