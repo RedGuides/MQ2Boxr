@@ -41,7 +41,9 @@ void printUsage() {
 		"\a-t|\ax  \ay/boxr Camp\ax - Sets navigation to camp at current position, and return to camp after combat\n"
 		"\a-t|\ax  \ay/boxr Manual\ax - Sets manual navigation (don't chase, no camp)\n"
 		"\a-t|\ax  \ay/boxr BurnNow\ax - Burn current target\n"
+#if !defined(ROF2EMU) && !defined(UFEMU)
 		"\a-t|\ax  \ay/boxr RaidAssistNum <1, 2, 3>\ax - Toggles which Raid MA to assist\n"
+#endif
 		"\a-t|\ax  \ay/boxr Debug \a-y[on|off]\ax\ax - Toggles MQ2Boxr debug logging\n"
 		"\a-t|\ax  \ay/boxr Help\ax - Prints this help\n"
 	);
@@ -81,7 +83,7 @@ void BoxrCommand(SPAWNINFO* pChar, char* szLine) {
 				return;
 			}
 #if defined(ROF2EMU) || defined(UFEMU)
-			LOGGER.error("/boxr RaidAssistNum: There is no main assist {} on EMU", raidAssistNum);
+			LOGGER.error("/boxr RaidAssistNum is not supported on EMU");
 			return;
 #else
 			if (!GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]) {

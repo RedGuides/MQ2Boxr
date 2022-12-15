@@ -16,8 +16,7 @@ void boxrRunCommandf(std::string_view format, Args&&... args) {
 	if (LOGGER.isDebugEnabled()) {
 		DoCommandf(command.c_str());
 		LOGGER.debug("Running Command: {}", command);
-	}
-	else {
+	} else {
 		DoCommandf("/squelch %s", command.c_str());
 	}
 }
@@ -55,12 +54,13 @@ void MasterBoxControl::BurnNow() {
 }
 
 void MasterBoxControl::RaidAssistNum(int raidAssistNum) {
-	LOGGER.info("Setting \a-tRaidAssistNum\ax to \at{}\ax (\at{}\ax)", raidAssistNum,
-		GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
+#if !defined(ROF2EMU) && !defined(UFEMU)
+	LOGGER.info("Setting \a-tRaidAssistNum\ax to \at{}\ax (\at{}\ax)", raidAssistNum, GetRaidMainAssistName(raidAssistNum));
 	LOGGER.debug("RaidAssist 1: {}", GetCharInfo()->raidData.MainAssistNames[0]);
 	LOGGER.debug("RaidAssist 2: {}", GetCharInfo()->raidData.MainAssistNames[1]);
 	LOGGER.debug("RaidAssist 3: {}", GetCharInfo()->raidData.MainAssistNames[2]);
 	GetBox()->SetRaidAssistNum(raidAssistNum);
+#endif
 }
 
 bool MasterBoxControl::IsPaused() {
@@ -137,7 +137,7 @@ void RGMercsControl::BurnNow() {
 
 void RGMercsControl::SetRaidAssistNum(int raidAssistNum) {
 	boxrRunCommandf("/rg AssistOutside 1");
-	boxrRunCommandf(MACRO_COMMAND_DELAY "/rg OutsideAssistList {}", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
+	boxrRunCommandf(MACRO_COMMAND_DELAY "/rg OutsideAssistList {}", GetRaidMainAssistName(raidAssistNum));
 }
 
 bool KissAssistControl::IsRunning() {
@@ -171,7 +171,7 @@ void KissAssistControl::BurnNow() {
 }
 
 void KissAssistControl::SetRaidAssistNum(int raidAssistNum) {
-	boxrRunCommandf("/switchma {} tank 1", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
+	boxrRunCommandf("/switchma {} tank 1", GetRaidMainAssistName(raidAssistNum));
 }
 
 bool MuleAssistControl::IsRunning() {
@@ -183,7 +183,7 @@ void MuleAssistControl::BurnNow() {
 }
 
 void MuleAssistControl::SetRaidAssistNum(int raidAssistNum) {
-	boxrRunCommandf("/changema {}", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
+	boxrRunCommandf("/changema {}", GetRaidMainAssistName(raidAssistNum));
 }
 
 bool AlsoKissAssistControl::IsRunning() {
@@ -191,7 +191,7 @@ bool AlsoKissAssistControl::IsRunning() {
 }
 
 void AlsoKissAssistControl::SetRaidAssistNum(int raidAssistNum) {
-	boxrRunCommandf("/switchma {}", GetCharInfo()->raidData.MainAssistNames[raidAssistNum - 1]);
+	boxrRunCommandf("/switchma {}", GetRaidMainAssistName(raidAssistNum));
 }
 
 bool CwtnControl::IsRunning() {
