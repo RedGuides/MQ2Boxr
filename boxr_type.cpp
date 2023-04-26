@@ -43,7 +43,7 @@ bool MQ2BoxrType::GetMember(MQVarPtr _ignoredVarPtr, const char* Member, char* _
 bool MQ2BoxrType::GetCurrentBoxKey(mq::MQTypeVar& Dest) {
 	strcpy_s(DataTypeTemp, MasterBoxControl::getInstance().Current().c_str());
 	Dest.Type = mq::datatypes::pStringType;
-	Dest.Ptr = DataTypeTemp;
+	Dest.Ptr = &DataTypeTemp[0];
 	return true;
 }
 
