@@ -86,6 +86,7 @@ MasterBoxControl::MasterBoxControl() {
 	boxes.push_back(std::make_shared<EntropyControl>());
 	boxes.push_back(std::make_shared<AlsoKissAssistControl>());
 	boxes.push_back(std::make_shared<XGenControl>());
+	boxes.push_back(std::make_shared<RGMercsLuaControl>());
 	boxes.push_back(std::make_shared<CwtnControl>());
 }
 
@@ -138,6 +139,40 @@ void RGMercsControl::BurnNow() {
 void RGMercsControl::SetRaidAssistNum(int raidAssistNum) {
 	boxrRunCommandf("/rg AssistOutside 1");
 	boxrRunCommandf(MACRO_COMMAND_DELAY "/rg OutsideAssistList {}", GetRaidMainAssistName(raidAssistNum));
+}
+
+bool RGMercsLuaControl::IsRunning() {
+	return EvaluateBooleanMacroExpression("${Lua.Script[rgmercs].Status.Equal[RUNNING]}");
+}
+
+void RGMercsLuaControl::Pause() {
+	boxrRunCommandf("/rg pause");
+	PauseTwist();
+}
+
+void RGMercsLuaControl::Unpause() {
+	boxrRunCommandf("/rg unpause");
+}
+
+void RGMercsLuaControl::Chase() {
+	boxrRunCommandf("/rg chaseon");
+}
+
+void RGMercsLuaControl::Camp() {
+	boxrRunCommandf("/rg campon");
+}
+
+void RGMercsLuaControl::Manual() {
+	boxrRunCommandf("/rg chaseoff");
+	boxrRunCommandf("/rg campoff");
+}
+
+void RGMercsLuaControl::BurnNow() {
+	LOGGER.info("BurnNow is not supported for RGMercs - Lua edition");
+}
+
+void RGMercsLuaControl::SetRaidAssistNum(int raidAssistNum) {
+	LOGGER.info("RaidAssistNum is not supported for RGMercs - Lua edition");
 }
 
 bool KissAssistControl::IsRunning() {
