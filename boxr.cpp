@@ -146,25 +146,25 @@ bool RGMercsLuaControl::IsRunning() {
 }
 
 void RGMercsLuaControl::Pause() {
-	boxrRunCommandf("/rg pause");
+	boxrRunCommandf("/rgl pause");
 	PauseTwist();
 }
 
 void RGMercsLuaControl::Unpause() {
-	boxrRunCommandf("/rg unpause");
+	boxrRunCommandf("/rgl unpause");
 }
 
 void RGMercsLuaControl::Chase() {
-	boxrRunCommandf("/rg chaseon");
+	boxrRunCommandf("/rgl chaseon");
 }
 
 void RGMercsLuaControl::Camp() {
-	boxrRunCommandf("/rg campon");
+	boxrRunCommandf("/rgl campon");
 }
 
 void RGMercsLuaControl::Manual() {
-	boxrRunCommandf("/rg chaseoff");
-	boxrRunCommandf("/rg campoff");
+	boxrRunCommandf("/rgl chaseoff");
+	boxrRunCommandf("/rgl campoff");
 }
 
 void RGMercsLuaControl::BurnNow() {
