@@ -90,7 +90,7 @@ The mapping to CWTN commands is very straight-forward
 | `BurnNow`            | *Not supported*
 | `RaidAssistNum <N>`  | *Not supported*
 
-#### entropy (`entropy`)
+#### Entropy (`entropy`)
 
 | Boxr command         | Action
 |----------------------|-------------
