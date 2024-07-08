@@ -87,7 +87,7 @@ The mapping to CWTN commands is very straight-forward
 | `Camp`               | `/rgl camphard`
 | `Chase`              | `/rgl chaseon`
 | `Manual`             | `/rgl chaseoff`<br/>`/rgl campoff`
-| `BurnNow`            | *Not supported*
+| `BurnNow`            | `/rgl set BurnAlways 1`
 | `RaidAssistNum <N>`  | *Not supported*
 
 #### Entropy (`entropy`)
