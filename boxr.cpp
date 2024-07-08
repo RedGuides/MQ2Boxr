@@ -168,7 +168,7 @@ void RGMercsLuaControl::Manual() {
 }
 
 void RGMercsLuaControl::BurnNow() {
-	LOGGER.info("BurnNow is not supported for RGMercs - Lua edition");
+	boxrRunCommandf("/rgl set BurnAlways 1");
 }
 
 void RGMercsLuaControl::SetRaidAssistNum(int raidAssistNum) {
