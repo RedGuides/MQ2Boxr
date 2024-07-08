@@ -80,6 +80,16 @@ The mapping to CWTN commands is very straight-forward
 | `BurnNow`            | *Not supported*
 | `RaidAssistNum <N>`  | `/rg AssistOutside 1`<br />`/rg OutsideAssistList <Name of Raid MA #N>`
 
+#### rgmercs lua (`rgmercs lua`)
+
+| Boxr command         | Action
+|----------------------|-------------
+| `Camp`               | `/rgl camphard`
+| `Chase`              | `/rgl chaseon`
+| `Manual`             | `/rgl chaseoff`<br/>`/rgl campoff`
+| `BurnNow`            | `/rgl set BurnAlways 1`
+| `RaidAssistNum <N>`  | *Not supported*
+
 #### Entropy (`entropy`)
 
 | Boxr command         | Action

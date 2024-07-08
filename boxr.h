@@ -58,6 +58,21 @@ public:
 	inline std::string GetPauseQuery() { return MACRO_PAUSED_QUERY; }
 };
 
+class RGMercsLuaControl : public BoxControl {
+public:
+	const char* GetKey() override { return "rgmercs.lua"; }
+	const char* GetName() override { return "RGMercs - Lua edition"; }
+	bool IsRunning() override;
+	void Pause() override;
+	void Unpause() override;
+	void Chase() override;
+	void Camp() override;
+	void Manual() override;
+	void BurnNow() override;
+	void SetRaidAssistNum(int raidAssistNum) override;
+	inline std::string GetPauseQuery() { return MACRO_PAUSED_QUERY; }
+};
+
 class KissAssistControl : public BoxControl {
 public:
 	const char* GetKey() override { return "kissassist"; }
