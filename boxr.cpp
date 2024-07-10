@@ -291,6 +291,13 @@ void CwtnControl::BurnNow() {
 	boxrRunCommandf("/{} BurnNow", GetClassCommand());
 }
 
+void CwtnControl::BurnOff() {
+	boxrRunCommandf("/{} BurnAlways off", GetClassCommand());
+	boxrRunCommandf("/{} BurnAllNamed off", GetClassCommand());
+}
+void CwtnControl::BurnNamed() {
+	boxrRunCommandf("/{} BurnAllNamed on", GetClassCommand());
+}
 void CwtnControl::SetRaidAssistNum(int raidAssistNum) {
 	boxrRunCommandf("/{} raidassistnum {}", GetClassCommand(), raidAssistNum);
 }
