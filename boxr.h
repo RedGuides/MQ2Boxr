@@ -36,6 +36,8 @@ public:
 	virtual void Camp() = 0;
 	virtual void Manual() = 0;
 	virtual void BurnNow() = 0;
+	virtual void BurnOff() = 0;
+	virtual void BurnNamed() = 0;
 	virtual void SetRaidAssistNum(int raidAssistNum) = 0;
 
 	virtual std::string GetPauseQuery() = 0;
@@ -54,6 +56,8 @@ public:
 	void Camp() override;
 	void Manual() override;
 	void BurnNow() override;
+	void BurnOff() override;
+	void BurnNamed() override;
 	void SetRaidAssistNum(int raidAssistNum) override;
 	inline std::string GetPauseQuery() { return MACRO_PAUSED_QUERY; }
 };
@@ -69,6 +73,8 @@ public:
 	void Camp() override;
 	void Manual() override;
 	void BurnNow() override;
+	void BurnOff() override;
+	void BurnNamed() override;
 	void SetRaidAssistNum(int raidAssistNum) override;
 	inline std::string GetPauseQuery() { return MACRO_PAUSED_QUERY; }
 };
@@ -84,6 +90,7 @@ public:
 	void Camp() override;
 	void Manual() override;
 	void BurnNow() override;
+	void BurnNamed() override;
 	void SetRaidAssistNum(int raidAssistNum) override;
 	inline std::string GetPauseQuery() { return MACRO_PAUSED_QUERY; }
 };
@@ -94,6 +101,8 @@ public:
 	const char* GetName() override { return "MuleAssist"; }
 	bool IsRunning() override;
 	void BurnNow() override;
+	void BurnOff() override;
+	void BurnNamed() override;
 	void SetRaidAssistNum(int raidAssistNum) override;
 };
 
@@ -116,6 +125,8 @@ public:
 	void Camp() override;
 	void Manual() override;
 	void BurnNow() override;
+	void BurnOff() override;
+	void BurnNamed() override;
 	void SetRaidAssistNum(int raidAssistNum) override;
 	inline std::string GetPauseQuery() { return "${CWTN.Paused}"; }
 
@@ -136,6 +147,8 @@ public:
 	void Camp() override;
 	void Manual() override;
 	void BurnNow() override;
+	void BurnOff() override;
+	void BurnNamed() override;
 	void SetRaidAssistNum(int raidAssistNum) override;
 	inline std::string GetPauseQuery() { return MACRO_PAUSED_QUERY; }
 };
@@ -169,6 +182,8 @@ public:
 	void Camp() override { LOG_NOOP_WARNING; }
 	void Manual() override { LOG_NOOP_WARNING; }
 	void BurnNow() override { LOG_NOOP_WARNING; }
+	void BurnOff() override; { LOG_NOOP_WARNING; }
+	void BurnNamed() override; { LOG_NOOP_WARNING; }
 	void SetRaidAssistNum(int raidAssistNum) override { LOG_NOOP_WARNING; }
 	inline std::string GetPauseQuery() { THROW_NOOP_EXCEPTION; }
 };
@@ -189,6 +204,8 @@ public:
 	void Camp();
 	void Manual();
 	void BurnNow();
+	void BurnOff();
+	void BurnNamed();
 	void RaidAssistNum(int raidAssistNum);
 	bool IsPaused();
 	std::string Current();
