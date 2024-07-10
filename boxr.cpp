@@ -152,6 +152,7 @@ void RGMercsControl::BurnOff() {
 void RGMercsControl::BurnNamed() {
 	LOGGER.info("BurnNamed is not supported for rgmercs");
 }
+
 void RGMercsControl::SetRaidAssistNum(int raidAssistNum) {
 	boxrRunCommandf("/rg AssistOutside 1");
 	boxrRunCommandf(MACRO_COMMAND_DELAY "/rg OutsideAssistList {}", GetRaidMainAssistName(raidAssistNum));
@@ -340,6 +341,7 @@ void EntropyControl::BurnOff() {
 
 void EntropyControl::BurnNamed() {
 	boxrRunCommandf("/burn auto on");
+		boxrRunCommandf(MACRO_COMMAND_DELAY "/burn auto off");
 	LOGGER.info("Burn NAMED is on");
 }
 
