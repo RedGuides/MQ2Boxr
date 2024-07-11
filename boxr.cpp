@@ -341,7 +341,6 @@ void EntropyControl::BurnOff() {
 
 void EntropyControl::BurnNamed() {
 	boxrRunCommandf("/burn auto on");
-		boxrRunCommandf(MACRO_COMMAND_DELAY "/burn auto off");
 	LOGGER.info("Burn NAMED is on");
 }
 
