@@ -40,8 +40,8 @@ The mapping to CWTN commands is very straight-forward
 | `Chase`              | `/war mode chase`
 | `Manual`             | `/war mode manual`
 | `BurnNow`            | `/war BurnNow`
-| `BurnOff`            | `/war BurnNow`
-| `BurnNamed`          | `/war BurnNow`
+| `BurnOff`            | `/war BurnAlways off` <br/> `/war BurnAllNamed off`
+| `BurnNamed`          | `/war BurnAllNamed on`
 | `RaidAssistNum <N>`  | `/war RaidAssistNum <N>`
 
 #### KissAssist (`kissassist`)
@@ -94,8 +94,8 @@ The mapping to CWTN commands is very straight-forward
 | `Chase`              | `/rgl chaseon`
 | `Manual`             | `/rgl chaseoff`<br/>`/rgl campoff`
 | `BurnNow`            | `/rgl set BurnAlways 1`
-| `BurnOff`            | `/rgl set BurnAlways 1` <br/>`/rgl set BurnAuto off`
-| `BurnNamed`          | `/rgl set BurnAuto on`
+| `BurnOff`            | `/rgl set BurnAlways 0` <br/>`/rgl set BurnAuto 0`
+| `BurnNamed`          | `/rgl set BurnAuto 1`
 | `RaidAssistNum <N>`  | *Not supported*
 
 #### Entropy (`entropy`)
@@ -106,7 +106,7 @@ The mapping to CWTN commands is very straight-forward
 | `Chase`              | `/tie on`
 | `Manual`             | `/env auto off`
 | `BurnNow`            | `/burn force on`<br/>Will burn until force burn is toggled off again.
-| `BurnOff`            | `/burn force off` <br/>`/burn auto off`
+| `BurnOff`            | `/burn force off` <br/> `/burn auto off`
 | `BurnNamed`          | `/burn auto on`
 | `RaidAssistNum <N>`  | `/cc ass smart <N>`
 
