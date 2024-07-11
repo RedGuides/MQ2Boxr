@@ -182,8 +182,8 @@ public:
 	void Camp() override { LOG_NOOP_WARNING; }
 	void Manual() override { LOG_NOOP_WARNING; }
 	void BurnNow() override { LOG_NOOP_WARNING; }
-	void BurnOff() override; { LOG_NOOP_WARNING; }
-	void BurnNamed() override; { LOG_NOOP_WARNING; }
+	void BurnOff() override { LOG_NOOP_WARNING; }
+	void BurnNamed() override { LOG_NOOP_WARNING; }
 	void SetRaidAssistNum(int raidAssistNum) override { LOG_NOOP_WARNING; }
 	inline std::string GetPauseQuery() { THROW_NOOP_EXCEPTION; }
 };
