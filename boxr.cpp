@@ -60,7 +60,7 @@ void MasterBoxControl::BurnOff() {
 
 void MasterBoxControl::BurnNamed() {
 	LOGGER.info("Burning NAMED!");
-	GetBox()->BurnBamed();
+	GetBox()->BurnNamed();
 }
 void MasterBoxControl::RaidAssistNum(int raidAssistNum) {
 #if !defined(ROF2EMU) && !defined(UFEMU)
