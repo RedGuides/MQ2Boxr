@@ -90,6 +90,7 @@ public:
 	void Camp() override;
 	void Manual() override;
 	void BurnNow() override;
+	void BurnOff() override;
 	void BurnNamed() override;
 	void SetRaidAssistNum(int raidAssistNum) override;
 	inline std::string GetPauseQuery() { return MACRO_PAUSED_QUERY; }
