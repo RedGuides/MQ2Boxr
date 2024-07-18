@@ -40,8 +40,8 @@ The mapping to CWTN commands is very straight-forward
 | `Chase`              | `/war mode chase`
 | `Manual`             | `/war mode manual`
 | `BurnNow`            | `/war BurnNow`
-| `BurnOff`            | `/war BurnNow`
-| `BurnNamed`          | `/war BurnNow`
+| `BurnOff`            | `/war BurnAlways off` <br/> `/war BurnAllNamed off`
+| `BurnNamed`          | `/war BurnAllNamed on`
 | `RaidAssistNum <N>`  | `/war RaidAssistNum <N>`
 
 #### KissAssist (`kissassist`)
