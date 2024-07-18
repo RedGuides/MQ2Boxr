@@ -94,7 +94,7 @@ The mapping to CWTN commands is very straight-forward
 | `Chase`              | `/rgl chaseon`
 | `Manual`             | `/rgl chaseoff`<br/>`/rgl campoff`
 | `BurnNow`            | `/rgl set BurnAlways 1`
-| `BurnOff`            | `/rgl set BurnAlways 1` <br/>`/rgl set BurnAuto off`
+| `BurnOff`            | `/rgl set BurnAlways 0` <br/>`/rgl set BurnAuto off`
 | `BurnNamed`          | `/rgl set BurnAuto on`
 | `RaidAssistNum <N>`  | *Not supported*
 
