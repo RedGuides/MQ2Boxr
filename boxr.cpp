@@ -53,6 +53,15 @@ void MasterBoxControl::BurnNow() {
 	GetBox()->BurnNow();
 }
 
+void MasterBoxControl::BurnOff() {
+	LOGGER.info("Burns are turned OFF!");
+	GetBox()->BurnOff();
+}
+
+void MasterBoxControl::BurnNamed() {
+	LOGGER.info("Burning NAMED!");
+	GetBox()->BurnNamed();
+}
 void MasterBoxControl::RaidAssistNum(int raidAssistNum) {
 #if !defined(ROF2EMU) && !defined(UFEMU)
 	LOGGER.info("Setting \a-tRaidAssistNum\ax to \at{}\ax (\at{}\ax)", raidAssistNum, GetRaidMainAssistName(raidAssistNum));
@@ -136,6 +145,14 @@ void RGMercsControl::BurnNow() {
 	LOGGER.info("BurnNow is not supported for rgmercs");
 }
 
+void RGMercsControl::BurnOff() {
+	LOGGER.info("BurnOff is not supported for rgmercs");
+}
+
+void RGMercsControl::BurnNamed() {
+	LOGGER.info("BurnNamed is not supported for rgmercs");
+}
+
 void RGMercsControl::SetRaidAssistNum(int raidAssistNum) {
 	boxrRunCommandf("/rg AssistOutside 1");
 	boxrRunCommandf(MACRO_COMMAND_DELAY "/rg OutsideAssistList {}", GetRaidMainAssistName(raidAssistNum));
@@ -171,6 +188,15 @@ void RGMercsLuaControl::BurnNow() {
 	boxrRunCommandf("/rgl set BurnAlways 1");
 }
 
+void RGMercsLuaControl::BurnOff() {
+	boxrRunCommandf("/rgl set BurnAlways 0");
+	boxrRunCommandf("/rgl set BurnAuto 0");
+}
+
+void RGMercsLuaControl::BurnNamed() {
+	boxrRunCommandf("/rgl set BurnAuto 1");
+}
+
 void RGMercsLuaControl::SetRaidAssistNum(int raidAssistNum) {
 	LOGGER.info("RaidAssistNum is not supported for RGMercs - Lua edition");
 }
@@ -203,6 +229,14 @@ void KissAssistControl::Manual() {
 
 void KissAssistControl::BurnNow() {
 	boxrRunCommandf("/burn on doburn");
+}
+
+void KissAssistControl::BurnOff() {
+	boxrRunCommandf("/burn off");
+}
+
+void KissAssistControl::BurnNamed() {
+	boxrRunCommandf("/burn on");
 }
 
 void KissAssistControl::SetRaidAssistNum(int raidAssistNum) {
@@ -258,6 +292,13 @@ void CwtnControl::BurnNow() {
 	boxrRunCommandf("/{} BurnNow", GetClassCommand());
 }
 
+void CwtnControl::BurnOff() {
+	boxrRunCommandf("/{} BurnAlways off", GetClassCommand());
+	boxrRunCommandf("/{} BurnAllNamed off", GetClassCommand());
+}
+void CwtnControl::BurnNamed() {
+	boxrRunCommandf("/{} BurnAllNamed on", GetClassCommand());
+}
 void CwtnControl::SetRaidAssistNum(int raidAssistNum) {
 	boxrRunCommandf("/{} raidassistnum {}", GetClassCommand(), raidAssistNum);
 }
@@ -290,6 +331,17 @@ void EntropyControl::Manual() {
 void EntropyControl::BurnNow() {
 	boxrRunCommandf("/burn force on");
 	LOGGER.info("Will burn all the time. Use \ay/burn force off\ax to stop burning.");
+}
+
+void EntropyControl::BurnOff() {
+	boxrRunCommandf("/burn force off");
+	boxrRunCommandf(MACRO_COMMAND_DELAY "/burn auto off");
+	LOGGER.info("All Burns turned off");
+}
+
+void EntropyControl::BurnNamed() {
+	boxrRunCommandf("/burn auto on");
+	LOGGER.info("Burn NAMED is on");
 }
 
 void EntropyControl::SetRaidAssistNum(int raidAssistNum) {
@@ -325,6 +377,16 @@ void XGenControl::Manual() {
 void XGenControl::BurnNow() {
 	boxrRunCommandf("/cc burnonce");
 	LOGGER.info("Will burn current mob only.");
+}
+
+void XGenControl::BurnOff() {
+	boxrRunCommandf("/cc burn off");
+	LOGGER.info("Burns turned off");
+}
+
+void XGenControl::BurnNamed() {
+	boxrRunCommandf("/cc burn on");
+	LOGGER.info("Burns are turned on.");
 }
 
 void XGenControl::SetRaidAssistNum(int raidAssistNum) {
