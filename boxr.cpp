@@ -191,14 +191,15 @@ void RGMercsLuaControl::BurnNow() {
 void RGMercsLuaControl::BurnOff() {
 	boxrRunCommandf("/rgl set BurnAlways 0");
 	boxrRunCommandf("/rgl set BurnAuto 0");
+	boxrRunCommandf("/rgl set BurnNamed 0");
 }
 
 void RGMercsLuaControl::BurnNamed() {
-	boxrRunCommandf("/rgl set BurnAuto 1");
+	boxrRunCommandf("/rgl set BurnNamed 1");
 }
 
 void RGMercsLuaControl::SetRaidAssistNum(int raidAssistNum) {
-	LOGGER.info("RaidAssistNum is not supported for RGMercs - Lua edition");
+	boxrRunCommandf("/rgl set RaidAssistTarget raidAssistNum);
 }
 
 bool KissAssistControl::IsRunning() {
