@@ -94,9 +94,9 @@ The mapping to CWTN commands is very straight-forward
 | `Chase`              | `/rgl chaseon`
 | `Manual`             | `/rgl chaseoff`<br/>`/rgl campoff`
 | `BurnNow`            | `/rgl set BurnAlways 1`
-| `BurnOff`            | `/rgl set BurnAlways 0` <br/>`/rgl set BurnAuto off`
-| `BurnNamed`          | `/rgl set BurnAuto on`
-| `RaidAssistNum <N>`  | *Not supported*
+| `BurnOff`            | `/rgl set BurnAlways 0` <br/>`/rgl set BurnAuto 0`<br/>`/rgl set BurnNamed 0`
+| `BurnNamed`          | `/rgl set BurnNamed 1`
+| `RaidAssistNum <N>`  | `/rgl set RaidAssistTarget <N>`
 
 #### Entropy (`entropy`)
 
