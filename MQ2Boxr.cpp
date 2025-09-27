@@ -41,6 +41,8 @@ void printUsage() {
 		"\a-t|\ax  \ay/boxr Camp\ax - Sets navigation to camp at current position, and return to camp after combat\n"
 		"\a-t|\ax  \ay/boxr Manual\ax - Sets manual navigation (don't chase, no camp)\n"
 		"\a-t|\ax  \ay/boxr BurnNow\ax - Burn current target\n"
+		"\a-t|\ax  \ay/boxr BurnOff\ax - Turn Burns Off\n"
+		"\a-t|\ax  \ay/boxr BurnNamed\ax - Burn Named targets\n"
 #if !defined(ROF2EMU) && !defined(UFEMU)
 		"\a-t|\ax  \ay/boxr RaidAssistNum <1, 2, 3>\ax - Toggles which Raid MA to assist\n"
 #endif
@@ -71,6 +73,10 @@ void BoxrCommand(SPAWNINFO* pChar, char* szLine) {
 		MasterBoxControl::getInstance().Manual();
 	} else if (iStrEquals("burnnow", argVector.front())) {
 		MasterBoxControl::getInstance().BurnNow();
+	} else if (iStrEquals("burnoff", argVector.front())) {
+		MasterBoxControl::getInstance().BurnOff();
+	} else if (iStrEquals("burnnamed", argVector.front())) {
+		MasterBoxControl::getInstance().BurnNamed();
 	} else if (iStrEquals("raidassistnum", argVector.front())) {
 		if (argVector.size() != 2) {
 			LOGGER.error("/boxr RaidAssistNum: expected exactly one argument, but got {}", argVector.size() - 1);

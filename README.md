@@ -15,6 +15,8 @@ running.
 | `/boxr Chase`                   | Chase the MA, and assist in battle
 | `/boxr Manual`                  | Do not chase, do not return to camp. This state behaves a little bit different between different boxes, see [specifics](#specifics) below
 | `/boxr BurnNow`                 | Burn current target
+| `/boxr BurnOff`                 | Turns Burn Function Off
+| `/boxr BurnNAmed`               | Turns on Burn Functions for Named
 | `/boxr RaidAssistNum <1\|2\|3>` | Toggles which Raid MA the character will assist. This command is not supported on the Emulator build
 | `/boxr Debug <on\|off>`         | Turn on/off MQ2Boxr debug logging
 | `/boxr Help`                    | Print help text
@@ -38,6 +40,8 @@ The mapping to CWTN commands is very straight-forward
 | `Chase`              | `/war mode chase`
 | `Manual`             | `/war mode manual`
 | `BurnNow`            | `/war BurnNow`
+| `BurnOff`            | `/war BurnAlways off` <br/> `/war BurnAllNamed off`
+| `BurnNamed`          | `/war BurnAllNamed on`
 | `RaidAssistNum <N>`  | `/war RaidAssistNum <N>`
 
 #### KissAssist (`kissassist`)
@@ -48,6 +52,8 @@ The mapping to CWTN commands is very straight-forward
 | `Chase`              | `/chaseon`
 | `Manual`             | `/chaseoff` <br/> `/camphere off`
 | `BurnNow`            | `/burn on doburn`
+| `BurnOff`            | `/burn off`
+| `BurnNamed`          | `/burn on`
 | `RaidAssistNum <N>`  | `/switchma <Name of Raid MA #N> tank 1`
 
 #### MuleAssist (`muleassist`)
@@ -88,7 +94,9 @@ The mapping to CWTN commands is very straight-forward
 | `Chase`              | `/rgl chaseon`
 | `Manual`             | `/rgl chaseoff`<br/>`/rgl campoff`
 | `BurnNow`            | `/rgl set BurnAlways 1`
-| `RaidAssistNum <N>`  | *Not supported*
+| `BurnOff`            | `/rgl set BurnAlways 0` <br/>`/rgl set BurnAuto 0`<br/>`/rgl set BurnNamed 0`
+| `BurnNamed`          | `/rgl set BurnNamed 1`
+| `RaidAssistNum <N>`  | `/rgl set RaidAssistTarget <N>`
 
 #### Entropy (`entropy`)
 
@@ -98,6 +106,8 @@ The mapping to CWTN commands is very straight-forward
 | `Chase`              | `/tie on`
 | `Manual`             | `/env auto off`
 | `BurnNow`            | `/burn force on`<br/>Will burn until force burn is toggled off again.
+| `BurnOff`            | `/burn force off` <br/>`/burn auto off`
+| `BurnNamed`          | `/burn auto on`
 | `RaidAssistNum <N>`  | `/cc ass smart <N>`
 
 #### XGen (`xgen`)
@@ -108,6 +118,8 @@ The mapping to CWTN commands is very straight-forward
 | `Chase`              | `/cc follow` <br/>`/cc camp off`
 | `Manual`             | `/cc manual`
 | `BurnNow`            | `/cc burnonce`
+| `BurnOff`            | `/cc burn off`
+| `BurnNamed`          | `/cc burn on`
 | `RaidAssistNum <N>`  | `/cc setassist <N>`
 
 ### TLO
