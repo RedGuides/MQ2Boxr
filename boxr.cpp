@@ -185,6 +185,7 @@ void RGMercsLuaControl::Manual() {
 }
 
 void RGMercsLuaControl::BurnNow() {
+	boxrRunCommandf("/rgl set BurnAuto 1");
 	boxrRunCommandf("/rgl set BurnAlways 1");
 }
 
@@ -195,6 +196,7 @@ void RGMercsLuaControl::BurnOff() {
 }
 
 void RGMercsLuaControl::BurnNamed() {
+	boxrRunCommandf("/rgl set BurnAuto 1");
 	boxrRunCommandf("/rgl set BurnNamed 1");
 }
 
