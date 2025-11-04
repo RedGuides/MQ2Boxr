@@ -10,9 +10,9 @@
 // each command.
 #define MACRO_COMMAND_DELAY "/timed 3 "
 
-template <typename... Args>
-void boxrRunCommandf(std::string_view format, Args&&... args) {
-	auto command = fmt::format(format, std::forward<Args>(args)...);
+template <typename... T>
+void boxrRunCommandf(fmt::format_string<T...> fmt, T&&... args) {
+	auto command = fmt::vformat(fmt, fmt::make_format_args(args...));
 	if (LOGGER.isDebugEnabled()) {
 		DoCommandf(command.c_str());
 		LOGGER.debug("Running Command: {}", command);

@@ -51,7 +51,7 @@ void printUsage() {
 
 void BoxrCommand(SPAWNINFO* pChar, char* szLine) {
 	if (GetGameState() != GAMESTATE_INGAME) {
-		LOGGER.error("Was asked to do '{}', but am not in game");
+		LOGGER.error("Was asked to do '{}', but am not in game", szLine);
 		return;
 	}
 

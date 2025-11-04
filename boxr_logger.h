@@ -29,21 +29,21 @@ public:
 	}
 
 	template <typename... Args>
-	void error(std::string_view messageFormat, Args ...args) {
-		doLog(errorFormat, messageFormat, std::forward<Args>(args)...);
+	void error(fmt::format_string<Args...> fmt, Args&&... args) {
+		doLog(errorFormat, fmt, std::forward<Args>(args)...);
 	}
 
 	template <typename... Args>
-	void info(std::string_view messageFormat, Args ...args) {
-		doLog(infoFormat, messageFormat, std::forward<Args>(args)...);
+	void info(fmt::format_string<Args...> fmt, Args&&... args) {
+		doLog(infoFormat, fmt, std::forward<Args>(args)...);
 	}
 
 	template <typename... Args>
-	void debug(std::string_view messageFormat, Args ...args) {
+	void debug(fmt::format_string<Args...> fmt, Args&&... args) {
 		if (!debugEnabled) {
 			return;
 		}
-		doLog(debugFormat, messageFormat, std::forward<Args>(args)...);
+		doLog(debugFormat, fmt, std::forward<Args>(args)...);
 	}
 
 private:
@@ -54,9 +54,9 @@ private:
 	const char* debugFormat = BOXR_LOG_HEADER "\a-y[\ayDEBUG\a-y] \ao %s";
 	const char* errorFormat = BOXR_LOG_HEADER "\a-r[\arERROR\ax] \ao %s";
 
-	template<typename ...Args>
-	void doLog(const char* logFormat, std::string_view messageFormat, Args ...args) {
-		auto message = fmt::format(messageFormat, std::forward<Args>(args)...);
+	template<typename... Args>
+	void doLog(const char* logFormat, fmt::format_string<Args...> fmt, Args&&... args) {
+		auto message = fmt::vformat(fmt, fmt::make_format_args(args...));
 		WriteChatf(logFormat, message.c_str());
 	}
 };
