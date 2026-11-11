@@ -10,13 +10,13 @@ Provides details about the automation that MQ2Boxr considers to currently be in 
 
 ## Members
 <!--dt-members-start-->
-### {{ renderMember(type='bool', name='Paused') }}
+/// member | bool Paused
+Indicates whether the automation is currently paused
+///
 
-:   Indicates whether the automation is currently paused
-
-### {{ renderMember(type='string', name='Current') }}
-
-:   Key of the automation that is controlling the toon
+/// member | string Current
+Key of the automation that is controlling the toon
+///
 
 <!--dt-members-end-->
 
